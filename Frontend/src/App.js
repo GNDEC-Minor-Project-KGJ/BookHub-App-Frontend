@@ -18,6 +18,8 @@ import {
   useCart
 } from "./index"
 
+import BookEditor from "./Pages/BookEditor/BookEditor"
+
 function App() {
 
   const { userLoggedIn } = useUserLogin()
@@ -31,6 +33,7 @@ function App() {
         <Navbar/>
         <Routes>
           <Route path="/"         exact element={<Home/>} />
+          <Route path="/editor"   exact element={<BookEditor/>} />
           <Route path="/shop"     exact element={<Shop/>} />
           <Route path="/shop/:id"       element={<ProductPage/>} />
           <Route path="/login"          element={<Login/>} />

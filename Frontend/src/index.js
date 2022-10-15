@@ -43,6 +43,8 @@ export { Wishlist } from "./Pages/Wishlist/Wishlist"
 export { Cart } from "./Pages/Cart/Cart"
 export { Orders } from "./Pages/Orders/Orders"
 
+
+
 ReactDOM.render(
   <React.StrictMode>
     <UserLoginContextProvider>
