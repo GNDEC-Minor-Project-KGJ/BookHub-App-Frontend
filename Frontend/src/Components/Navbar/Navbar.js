@@ -105,6 +105,14 @@ function Navbar() {
                         </div>
                     </button>
                 </Link>
+                <i class=""></i>
+                <Link to="/editor">
+                    <button className="icon-btn">
+                        <div className="icon-count-badge">
+                            <i className="fa fa-star fa-x" aria-hidden="true" ></i>
+                        </div>
+                    </button>
+                </Link>
                 <Link to="/wishlist">
                     <button className="icon-btn">
                         <div className="icon-count-badge">
