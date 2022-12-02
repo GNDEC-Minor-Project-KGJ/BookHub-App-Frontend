@@ -1,0 +1,15 @@
+.container {
+    min-height: "6em";
+    cursor: "text";
+    padding: "30px"
+}
+
+.DraftEditor-root {
+    border: 1px solid black;
+    font-size: 20px;
+    min-height: 400px;
+    padding: 20px;
+}
+.DraftEditor-editorContainer {
+    margin-bottom: "30px"
+}

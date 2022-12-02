@@ -22,22 +22,22 @@ function Footer() {
             <ul className='footer-list'>
                 <li><h2>SOCIALS</h2></li>
                 <li>
-                    <a href="https://www.linkedin.com/in/naman-saxena-5460b3188/" rel="noreferrer" target="_blank">
+                    <a href="#" rel="noreferrer" target="_blank">
                         <p>Linkedin</p>
                     </a>
                 </li>
                 <li>
-                    <a href="https://github.com/Naman-Saxena1" rel="noreferrer" target="_blank">
+                    <a href="https://github.com/astrogeek77" rel="noreferrer" target="_blank">
                         <p>Github</p>
                     </a>
                 </li>
                 <li>
-                    <a href="https://twitter.com/NamanSa83962307?s=08" rel="noreferrer" target="_blank">
+                    <a href="#" rel="noreferrer" target="_blank">
                         <p>Twitter</p>
                     </a>
                 </li>
                 <li>
-                    <a href="https://www.instagram.com/naman_saxena98/" rel="noreferrer" target="_blank">
+                    <a href="#" rel="noreferrer" target="_blank">
                         <p>Instagram</p>
                     </a>
                 </li>

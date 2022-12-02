@@ -2,7 +2,7 @@ import React,{ useEffect } from 'react'
 import { Link } from "react-router-dom"
 import axios from "axios"
 import { useLocation } from "react-router-dom"
-import LibraryIllustration from "../..//Assets/Images/Library_Illustration_1.jpg"
+import LibraryIllustration from "../..//Assets/Images/library-3.avif"
 import './Home.css'
 import jwt_decode from "jwt-decode"
 import {  

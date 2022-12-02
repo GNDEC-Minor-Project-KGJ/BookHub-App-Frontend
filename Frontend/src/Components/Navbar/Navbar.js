@@ -70,7 +70,7 @@ function Navbar() {
             <div className="left-topbar-container">
                 {/* <button id="top-bar-ham-menu-btn" className="icon-btn"><i className="fa fa-bars" aria-hidden="true"></i></button> */}
                 <Link to="/">
-                    <h2 className="top-bar-brand-name">Bookztron</h2>
+                    <h2 className="top-bar-brand-name">BookHub</h2>
                 </Link>
                 {
                     location.pathname==="/shop" && 
@@ -102,6 +102,14 @@ function Navbar() {
                     <button className="icon-btn">
                         <div>
                             <BsShopWindow/>
+                        </div>
+                    </button>
+                </Link>
+                <i class=""></i>
+                <Link to="/editor">
+                    <button className="icon-btn">
+                        <div className="icon-count-badge">
+                            <i className="fa fa-star fa-x" aria-hidden="true" ></i>
                         </div>
                     </button>
                 </Link>
