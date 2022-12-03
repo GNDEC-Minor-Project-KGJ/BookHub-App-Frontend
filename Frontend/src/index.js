@@ -24,6 +24,7 @@ export { useSearchBar } from "./Context/search-bar-context"
 export { Navbar } from "./Components/Navbar/Navbar"
 export { GenreCard } from './Components/GenreCards/GenreCard'
 export { NewArrivals } from "./Components/NewArrivals/NewArrival"
+export { Featured } from "./Components/Featured/Featured"
 export { ProductCard } from "./Components/Card/ProductCard"
 export { HorizontalProductCard } from "./Components/HorizontalCard/HorizontalProductCard"
 export { Footer } from "./Components/Footer/Footer"
@@ -42,7 +43,7 @@ export { Shop } from "./Pages/Shop/Shop"
 export { Wishlist } from "./Pages/Wishlist/Wishlist"
 export { Cart } from "./Pages/Cart/Cart"
 export { Orders } from "./Pages/Orders/Orders"
-
+// export { Profile } from "./Pages/Profile/Profile"
 
 
 ReactDOM.render(

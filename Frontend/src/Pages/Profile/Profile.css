@@ -1,0 +1,8 @@
+.user-img {
+    width: 250px;
+    aspect-ratio: 1;
+}
+
+.user-desc {
+    margin: 30px 50px;
+}
