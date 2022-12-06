@@ -5,7 +5,7 @@ import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom"
 import { useToast, useOrders } from "../../index"
 
-function ProductOrderCard({productDetails})
+function ProductOrderCard({ productDetails })
 {
     const { dispatchUserOrders } = useOrders()
     const navigate = useNavigate()
@@ -38,7 +38,7 @@ function ProductOrderCard({productDetails})
         )
         if(updatedUserInfo.data.status==="ok")
         {
-            dispatchUserOrders({type: "UPDATE_USER_ORDERS",payload: updatedUserInfo.data.user.orders})
+            dispatchUserOrders({type: "UPDATE_USER_ORDERS", payload: updatedUserInfo.data.user.orders})
         } 
     }
 

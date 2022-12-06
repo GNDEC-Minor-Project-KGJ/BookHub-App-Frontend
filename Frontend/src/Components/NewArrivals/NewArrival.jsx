@@ -20,7 +20,7 @@ function NewArrivals()
     return (
         <div className='new-arrivals-container'>
         {
-          newArrivalsProductList.length===0?(
+          newArrivalsProductList.length === 0?(
             <Lottie options={loadingObj}
               height={380}
               style={{ margin: "auto"}}

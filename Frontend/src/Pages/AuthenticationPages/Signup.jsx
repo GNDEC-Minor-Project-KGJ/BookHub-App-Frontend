@@ -7,18 +7,18 @@ import { useToast } from '../../Context/toast-context';
 function Signup() {
   const { showToast } = useToast();
 
-  const [termsAndConditionsCheckbox, setTermsAndConditionsCheckbox] =
-    useState(false);
+  const [termsAndConditionsCheckbox, setTermsAndConditionsCheckbox] = useState(false);
+
   const [newUserName, setNewUserName] = useState('');
   const [newUserEmail, setNewUserEmail] = useState('');
   const [newUserPassword, setNewUserPassword] = useState('');
 
   const navigate = useNavigate();
 
-  function signupUser(event) {
+  const signupUser = (event) => {
     event.preventDefault();
     axios
-      .post('https://bookhub-y13z.onrender.com/api/signup', {
+      .post('http://localhost:5000/api/signup', {
         newUserName: `${newUserName}`,
         newUserEmail: `${newUserEmail}`,
         newUserPassword: `${newUserPassword}`,

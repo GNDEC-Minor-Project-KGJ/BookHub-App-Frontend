@@ -10,7 +10,7 @@ let NewArrivalsProvider = ({ children }) => {
     try {
       (async () => {
         const productsAvailableData = await axios.get(
-          'https://bookhub-y13z.onrender.com/api/home/newarrivals'
+          `http://localhost:8000/api/top-rated`
         );
         setNewArrivalsProductList([
           ...productsAvailableData.data.newArrivalList,

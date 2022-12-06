@@ -117,7 +117,7 @@ function Home() {
         </button>
       </Link>
 
-      <h1 className="homepage-headings">New Arrivals</h1>
+      <h1 className="homepage-headings">Top Rated</h1>
       <NewArrivals />
       <h1 className="homepage-headings">Featured</h1>
       <Featured />

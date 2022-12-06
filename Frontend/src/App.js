@@ -20,6 +20,7 @@ import {
 
 import BookEditor from './Pages/BookEditor/BookEditor';
 import Profile from './Pages/Profile/Profile'
+import Read_Book from './Pages/Read_Book/Read_Book'
 
 function App() {
   const { userLoggedIn } = useUserLogin();
@@ -41,6 +42,7 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/read-book" element={<Read_Book />} />
         </Routes>
         <Toast position="bottom-right" />
       </div>

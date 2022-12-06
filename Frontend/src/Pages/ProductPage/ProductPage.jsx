@@ -8,7 +8,14 @@ import { useToast, useWishlist, useCart } from '../../index';
 
 function ProductPage() {
   const navigate = useNavigate();
-
+  const PURCHASED_BOOKS = [
+    'Bullshit Jobs: A Theory',
+    'Principles of Marketing',
+    'When to Rob a Bank',
+    'The Business School For People Who Like Helping People',
+    'Naked Statistics: Stripping the Dread from the Data',
+    'McKinsey Mind',
+  ];
   const { dispatchUserWishlist } = useWishlist();
   const { dispatchUserCart } = useCart();
   const { showToast } = useToast();
@@ -40,7 +47,7 @@ function ProductPage() {
       } else {
         (async function getUpdatedWishlistAndCart() {
           let updatedUserInfo = await axios.get(
-            'https://bookhub-y13z.onrender.com/api/user',
+            'http://localhost:5000/api/user',
             {
               headers: {
                 'x-access-token': localStorage.getItem('token'),
@@ -75,7 +82,7 @@ function ProductPage() {
         navigate('/login');
       } else {
         let wishlistUpdateResponse = await axios.patch(
-          'https://bookhub-y13z.onrender.com/api/wishlist',
+          'http://localhost:5000/api/wishlist',
           {
             productdetails,
           },
@@ -111,7 +118,7 @@ function ProductPage() {
         navigate('/login');
       } else {
         let cartUpdateResponse = await axios.patch(
-          'https://bookhub-y13z.onrender.com/api/cart',
+          'http://localhost:5000/api/cart',
           {
             productdetails,
           },
