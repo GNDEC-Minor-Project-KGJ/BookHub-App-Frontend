@@ -16,6 +16,7 @@ function ProductPage() {
     'Naked Statistics: Stripping the Dread from the Data',
     'McKinsey Mind',
   ];
+
   const { dispatchUserWishlist } = useWishlist();
   const { dispatchUserCart } = useCart();
   const { showToast } = useToast();
@@ -23,19 +24,22 @@ function ProductPage() {
   const productDetailsOnStorage = localStorage.getItem(`${id}`);
   const productdetails = JSON.parse(productDetailsOnStorage);
   const {
-    _id,
-    bookName,
+    title,
     author,
-    originalPrice,
-    discountedPrice,
-    discountPercent,
-    imgSrc,
-    imgAlt,
-    badgeText,
-    outOfStock,
-    rating,
-    description,
+    originalPrice = 100,
+    discountedPrice = 80,
+    discountPercent = 20,
+    url,
+    imgAlt = 'cover',
+    badgeText = 'on Sale',
+    outOfStock = false,
   } = productdetails;
+
+  const _id = id;
+  const imgSrc = url;
+  const bookName = title;
+  const description = "Lorem ipsum"
+  const rating = 4.3
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -47,7 +51,7 @@ function ProductPage() {
       } else {
         (async function getUpdatedWishlistAndCart() {
           let updatedUserInfo = await axios.get(
-            'http://localhost:5000/api/user',
+            'http://127.0.0.1:8000/api/user',
             {
               headers: {
                 'x-access-token': localStorage.getItem('token'),
@@ -82,7 +86,7 @@ function ProductPage() {
         navigate('/login');
       } else {
         let wishlistUpdateResponse = await axios.patch(
-          'http://localhost:5000/api/wishlist',
+          'http://127.0.0.1:8000/api/wishlist',
           {
             productdetails,
           },
@@ -118,7 +122,7 @@ function ProductPage() {
         navigate('/login');
       } else {
         let cartUpdateResponse = await axios.patch(
-          'http://localhost:5000/api/cart',
+          'http://127.0.0.1:8000/api/cart',
           {
             productdetails,
           },

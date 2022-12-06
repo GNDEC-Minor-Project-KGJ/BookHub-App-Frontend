@@ -1,19 +1,19 @@
-require("dotenv").config();
+require('dotenv').config();
 
-const mongoose = require("mongoose");
-const express = require("express");
+const mongoose = require('mongoose');
+const express = require('express');
 const app = express();
-const cookieParser = require("cookie-parser");
-const cors = require("cors");
-const morgan = require("morgan");
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+const morgan = require('morgan');
 
 //My routes
-const authRoutes = require("./routes/auth");
-const userRoutes = require("./routes/user");
-const categoryRoutes = require("./routes/category");
-const productRoutes = require("./routes/product");
-const orderRoutes = require("./routes/order");
-const paymentBRoutes = require("./routes/paymentBRoutes");
+const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
+const categoryRoutes = require('./routes/category');
+const productRoutes = require('./routes/product');
+const orderRoutes = require('./routes/order');
+const paymentBRoutes = require('./routes/paymentBRoutes');
 
 //DB Connection
 mongoose
@@ -22,22 +22,28 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    console.log("DB CONNECTED");
+    console.log('DB CONNECTED');
   });
 
 //Middlewares
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
-app.use(morgan("dev"));
+app.use(morgan('dev'));
 
 //My Routes
-app.use("/api", authRoutes);
-app.use("/api", userRoutes);
-app.use("/api", categoryRoutes);
-app.use("/api", productRoutes);
-app.use("/api", orderRoutes);
-app.use("/api", paymentBRoutes);
+app.use('/api', authRoutes);
+app.use('/api', userRoutes);
+app.use('/api', categoryRoutes);
+app.use('/api', productRoutes);
+app.use('/api', orderRoutes);
+app.use('/api', paymentBRoutes);
+
+resonse_object.header('Access-Control-Allow-Origin', '*');
+resonse_object.header(
+  'Access-Control-Allow-Headers',
+  'Origin, X-Requested-With, Content-Type, Accept'
+);
 
 //PORT
 const port = process.env.PORT || 5000;

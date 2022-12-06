@@ -96,7 +96,7 @@ function Navbar() {
             </button>
           </Link>
         )}
-        <Link to="/shop">
+        <Link to="/read-book">
           <button className="icon-btn">
             <div>
               <BsShopWindow />

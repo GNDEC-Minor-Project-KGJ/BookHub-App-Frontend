@@ -39,7 +39,7 @@ function Login() {
             }
           );
 
-          if (updatedUserInfo.data.status === 'ok') {
+          if (updatedUserInfo.status == 200) {
             dispatchUserWishlist({
               type: 'UPDATE_USER_WISHLIST',
               payload: updatedUserInfo.data.user.wishlist,
@@ -63,9 +63,9 @@ function Login() {
   function loginUser(event) {
     event.preventDefault();
     axios
-      .post('http://localhost:5000/api/login', {
-        userEmail,
-        userPassword,
+      .post('https://bookhub-y13z.onrender.com/api/login', {
+        email: userEmail,
+        password: userPassword,
       })
       .then((res) => {
         if (res.data.user) {

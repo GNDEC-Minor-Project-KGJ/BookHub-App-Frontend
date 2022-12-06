@@ -18,13 +18,13 @@ function Signup() {
   const signupUser = (event) => {
     event.preventDefault();
     axios
-      .post('http://localhost:5000/api/signup', {
+      .post('https://bookhub-y13z.onrender.com/api/signup', {
         newUserName: `${newUserName}`,
         newUserEmail: `${newUserEmail}`,
         newUserPassword: `${newUserPassword}`,
       })
       .then((res) => {
-        if (res.data.status === 'ok') {
+        if (res.status == 200) {
           //User created successfully, navigate to Login Page
           showToast('success', '', 'New user created successfully');
           navigate('/login');
