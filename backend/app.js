@@ -39,11 +39,6 @@ app.use('/api', productRoutes);
 app.use('/api', orderRoutes);
 app.use('/api', paymentBRoutes);
 
-resonse_object.header('Access-Control-Allow-Origin', '*');
-resonse_object.header(
-  'Access-Control-Allow-Headers',
-  'Origin, X-Requested-With, Content-Type, Accept'
-);
 
 //PORT
 const port = process.env.PORT || 5000;

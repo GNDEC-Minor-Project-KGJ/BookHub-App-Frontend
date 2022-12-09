@@ -1,42 +1,39 @@
-import React from "react"
-import { useNewArrivals } from "../../Context/new-arrival-context"
-import { ProductCard } from "../../index"
-import Lottie from "react-lottie"
-import LoadingLottie from "../../Assets/Lottie/loading-0.json"
+import React from 'react';
+import { useNewArrivals } from '../../Context/new-arrival-context';
+import { ProductCard } from '../../index';
+import Lottie from 'react-lottie';
+import LoadingLottie from '../../Assets/Lottie/loading-0.json';
 
-function Featured()
-{
-    const { newArrivalsProductList } = useNewArrivals()
+function Featured() {
+  const {newArrivalsProductList, setNewArrivalsProductList } = useNewArrivals();
 
-    const loadingObj = {
-      loop: true,
-      autoplay: true,
-      animationData : LoadingLottie,
-      rendererSettings: {
-        preserveAspectRatio: 'xMidYMid slice'
-      }
-    }
+  console.log({newArrivalsProductList})
+  const loadingObj = {
+    loop: true,
+    autoplay: true,
+    animationData: LoadingLottie,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+    },
+  };
 
-    return (
-        <div className='new-arrivals-container'>
-        {
-          newArrivalsProductList.length===0?(
-            <Lottie options={loadingObj}
-              height={380}
-              style={{ margin: "auto"}}
-              isStopped={false}
-              isPaused={false}
-            />
-          ):(
-            newArrivalsProductList.map( product=> 
-              (
-                <ProductCard key={product._id} productdetails={product}/>
-              )
-            )
-          )
-        }
-      </div>
-    )
+  return (
+    <div className="new-arrivals-container">
+      {newArrivalsProductList.length === 0 ? (
+        <Lottie
+          options={loadingObj}
+          height={380}
+          style={{ margin: 'auto' }}
+          isStopped={false}
+          isPaused={false}
+        />
+      ) : (
+        newArrivalsProductList.map((product) => (
+          <ProductCard key={product._id} productdetails={product} />
+        ))
+      )}
+    </div>
+  );
 }
 
 export { Featured };

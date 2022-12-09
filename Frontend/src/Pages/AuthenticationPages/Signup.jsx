@@ -18,10 +18,10 @@ function Signup() {
   const signupUser = (event) => {
     event.preventDefault();
     axios
-      .post('https://bookhub-y13z.onrender.com/api/signup', {
-        newUserName: `${newUserName}`,
-        newUserEmail: `${newUserEmail}`,
-        newUserPassword: `${newUserPassword}`,
+      .post('http://localhost:5000/api/signup', {
+        name: `${newUserName}`,
+        email: `${newUserEmail}`,
+        password: `${newUserPassword}`,
       })
       .then((res) => {
         if (res.status == 200) {

@@ -31,7 +31,7 @@ function Login() {
       } else {
         (async function getUpdatedWishlistAndCart() {
           let updatedUserInfo = await axios.get(
-            'https://bookhub-y13z.onrender.com/api/user',
+            'http://localhost:5000/api/user',
             {
               headers: {
                 'x-access-token': localStorage.getItem('token'),
@@ -63,7 +63,7 @@ function Login() {
   function loginUser(event) {
     event.preventDefault();
     axios
-      .post('https://bookhub-y13z.onrender.com/api/login', {
+      .post('http://localhost:5000/api/signin', {
         email: userEmail,
         password: userPassword,
       })
@@ -84,7 +84,7 @@ function Login() {
             type: 'UPDATE_USER_ORDERS',
             payload: res.data.orders,
           });
-          navigate('/shop');
+          navigate('/');
         } else {
           throw new Error('Error in user login');
         }

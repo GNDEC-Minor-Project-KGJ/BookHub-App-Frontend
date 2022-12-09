@@ -12,23 +12,27 @@ function ProductOrderCard({ productDetails })
 
     const { showToast } = useToast()
     const {
-        _id, 
-        bookName,
-        author,
-        originalPrice,
-        discountedPrice,
-        discountPercent,
-        imgSrc, 
-        imgAlt,
-        badgeText, 
-        outOfStock, 
-        quantity,
-        orderId
+      id,
+      title,
+      author,
+      originalPrice = 100,
+      discountedPrice = 80,
+      discountPercent = 20,
+      url,
+      imgAlt = 'cover',
+      badgeText = 'on Sale',
+      outOfStock = false,
     } = productDetails;
+
+    const _id = id;
+    const orderId = id
+    const quantity = 1;
+    const imgSrc = url;
+    const bookName = title;
 
     const removeItemFromOrders = async () => {
         let updatedUserInfo = await axios.patch(
-            `https://bookztron.herokuapp.com/api/orders/${_id}`,
+            `http://localhost:5000/api/orders/${_id}`,
             {
                 orderId
             },

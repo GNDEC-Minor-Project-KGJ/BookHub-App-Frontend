@@ -30,7 +30,7 @@ function NewArrivals()
           ):(
             newArrivalsProductList.map( product=> 
               (
-                <ProductCard key={product._id} productdetails={product}/>
+                <ProductCard key={product.id} productdetails={product}/>
               )
             )
           )
