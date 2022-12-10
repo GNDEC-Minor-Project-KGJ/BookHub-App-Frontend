@@ -69,21 +69,22 @@ function Login() {
       })
       .then((res) => {
         if (res.data.user) {
-          localStorage.setItem('token', res.data.user);
+          console.log(res.data)
+          localStorage.setItem('token', res.data.token);
           showToast('success', '', 'Logged in successfully');
           setUserLoggedIn(true);
-          dispatchUserWishlist({
-            type: 'UPDATE_USER_WISHLIST',
-            payload: res.data.wishlist,
-          });
-          dispatchUserCart({
-            type: 'UPDATE_USER_CART',
-            payload: res.data.cart,
-          });
-          dispatchUserOrders({
-            type: 'UPDATE_USER_ORDERS',
-            payload: res.data.orders,
-          });
+          // dispatchUserWishlist({
+          //   type: 'UPDATE_USER_WISHLIST',
+          //   payload: res.data.wishlist,
+          // });
+          // dispatchUserCart({
+          //   type: 'UPDATE_USER_CART',
+          //   payload: res.data.cart,
+          // });
+          // dispatchUserOrders({
+          //   type: 'UPDATE_USER_ORDERS',
+          //   payload: res.data.orders,
+          // });
           navigate('/');
         } else {
           throw new Error('Error in user login');

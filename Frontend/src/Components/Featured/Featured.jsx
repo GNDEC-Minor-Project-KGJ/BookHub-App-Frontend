@@ -21,6 +21,7 @@ function Featured() {
     <div className="new-arrivals-container">
       {newArrivalsProductList.length === 0 ? (
         <Lottie
+          key={1}
           options={loadingObj}
           height={380}
           style={{ margin: 'auto' }}
