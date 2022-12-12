@@ -45,7 +45,7 @@ function Home() {
       } else {
         (async function getUpdatedWishlistAndCart() {
           let updatedUserInfo = await axios.get(
-            `https://bookhub-y13z.onrender.com/api/user`,
+            `http://localhost:5000/api/user`,
             {
               headers: {
                 'x-access-token': localStorage.getItem('token'),
@@ -53,16 +53,16 @@ function Home() {
             }
           );
 
-          if (updatedUserInfo.data.status === 'ok') {
-            dispatchUserWishlist({
-              type: 'UPDATE_USER_WISHLIST',
-              payload: updatedUserInfo.data.user.wishlist,
-            });
-            dispatchUserCart({
-              type: 'UPDATE_USER_CART',
-              payload: updatedUserInfo.data.user.cart,
-            });
-          }
+          // if (updatedUserInfo.data.status === 'ok') {
+          //   dispatchUserWishlist({
+          //     type: 'UPDATE_USER_WISHLIST',
+          //     payload: updatedUserInfo.data.user.wishlist,
+          //   });
+          //   dispatchUserCart({
+          //     type: 'UPDATE_USER_CART',
+          //     payload: updatedUserInfo.data.user.cart,
+          //   });
+          // }
         })();
       }
     }
@@ -80,22 +80,22 @@ function Home() {
 
       <h1 className="homepage-headings">Genres</h1>
       <div className="genre-cards-container">
-        <Link to={'/shop'}>
+        <Link to={''}>
           <GenreCard genretype="Fiction" />
         </Link>
-        <Link to={'/shop'}>
+        <Link to={''}>
           <GenreCard genretype="Thriller" />
         </Link>
-        <Link to={'/shop'}>
+        <Link to={''}>
           <GenreCard genretype="Tech" />
         </Link>
-        <Link to={'/shop'}>
+        <Link to={''}>
           <GenreCard genretype="Philosophy" />
         </Link>
-        <Link to={'/shop'}>
+        <Link to={''}>
           <GenreCard genretype="Romance" />
         </Link>
-        <Link to={'/shop'} state={{ navigate: true }}>
+        <Link to={''} state={{ navigate: true }}>
           <GenreCard genretype="Manga" />
         </Link>
       </div>
@@ -113,7 +113,7 @@ function Home() {
           }}
           className="solid-secondary-btn homepage-explore-all-btn"
         >
-          Explore All
+          Explore Shop
         </button>
       </Link>
 
@@ -121,8 +121,8 @@ function Home() {
       <NewArrivals />
       <h1 className="homepage-headings">Featured</h1>
       <Featured />
-      <h1 className="homepage-headings">Recommended for You</h1>
-      <NewArrivals />
+      {/* <h1 className="homepage-headings">Recommended for You</h1>
+      <NewArrivals /> */}
       <Footer />
     </div>
   );

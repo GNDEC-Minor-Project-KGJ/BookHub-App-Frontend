@@ -9,8 +9,11 @@ import HeartLottie from '../../Assets/Icons/heart.json';
 import { useEffect } from 'react';
 
 function Wishlist() {
-  const { userWishlist, dispatchUserWishlist } = useWishlist();
+  // const { userWishlist, dispatchUserWishlist } = useWishlist();
   const { dispatchUserCart } = useCart();
+
+  const userWishlist = JSON.parse(localStorage.getItem('wishlistProducts'));
+  console.log(userWishlist);
 
   let heartObj = {
     loop: true,
@@ -21,38 +24,53 @@ function Wishlist() {
     },
   };
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
+  // useEffect(() => {
+    // const token = localStorage.getItem('token');
+    // if (token) {
+    //   const user = jwt_decode(token);
+    //   if (!user) {
+    //     localStorage.removeItem('token');
+    //   } else {
+    //     (async function getUpdatedWishlistAndCart() {
+    //       let updatedUserInfo = await axios.get(
+    //         'http://localhost:5000/api/user',
+    //         {
+    //           headers: {
+    //             'x-access-token': localStorage.getItem('token'),
+    //           },
+    //         }
+    //       );
+    //       if (updatedUserInfo.data.status === 'ok') {
+    //         dispatchUserWishlist({
+    //           type: 'UPDATE_USER_WISHLIST',
+    //           payload: updatedUserInfo.data.user.wishlist,
+    //         });
+    //         dispatchUserCart({
+    //           type: 'UPDATE_USER_CART',
+    //           payload: updatedUserInfo.data.user.cart,
+    //         });
+    //       }
+    //     })();
+    //   }
+    // }
+  // }, []);
 
-    if (token) {
-      const user = jwt_decode(token);
-      if (!user) {
-        localStorage.removeItem('token');
-      } else {
-        (async function getUpdatedWishlistAndCart() {
-          let updatedUserInfo = await axios.get(
-            'https://bookhub-y13z.onrender.com/api/user',
-            {
-              headers: {
-                'x-access-token': localStorage.getItem('token'),
-              },
-            }
-          );
-
-          if (updatedUserInfo.data.status === 'ok') {
-            dispatchUserWishlist({
-              type: 'UPDATE_USER_WISHLIST',
-              payload: updatedUserInfo.data.user.wishlist,
-            });
-            dispatchUserCart({
-              type: 'UPDATE_USER_CART',
-              payload: updatedUserInfo.data.user.cart,
-            });
-          }
-        })();
-      }
-    }
-  }, []);
+  if (userWishlist == null)
+    return (
+      <div className="empty-wishlist-message-container">
+        <Lottie
+          options={heartObj}
+          height={150}
+          width={150}
+          isStopped={false}
+          isPaused={false}
+        />
+        <h2>Your wishlist is empty 🙃</h2>
+        <Link to="/shop">
+          <button className=" solid-primary-btn">Go to shop</button>
+        </Link>
+      </div>
+    );
 
   return (
     <div className="wishlist-container">

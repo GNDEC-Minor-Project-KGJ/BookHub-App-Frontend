@@ -25,7 +25,7 @@ function Shop(props) {
   const { pathname } = useLocation();
   const { searchBarTerm } = useSearchBar();
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage, setProductsPerPage] = useState(12);
+  const [productsPerPage, setProductsPerPage] = useState(10);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -54,11 +54,12 @@ function Shop(props) {
       try {
         (async () => {
           const productsAvailableData = await axios.get(
-            'https://bookhub-y13z.onrender.com/api/home/products'
+            'http://127.0.0.1:8000/api/book-list'
           );
+          console.log(productsAvailableData.data);
           dispatchSortedProductsList({
             type: 'ADD_ITEMS_TO_PRODUCTS_AVAILABLE_LIST',
-            payload: [...productsAvailableData.data.productsList],
+            payload: [...productsAvailableData.data].splice(0, 50),
           });
         })();
       } catch (error) {
@@ -77,7 +78,7 @@ function Shop(props) {
       } else {
         (async function getUpdatedWishlistAndCart() {
           let updatedUserInfo = await axios.get(
-            'https://bookhub-y13z.onrender.com/api/user',
+            'http://localhost:5000/api/user',
             {
               headers: {
                 'x-access-token': localStorage.getItem('token'),
@@ -102,7 +103,7 @@ function Shop(props) {
 
   let searchedProducts = productsAvailableList.filter((productdetails) => {
     return (
-      productdetails.bookName
+      productdetails.title
         .toLowerCase()
         .includes(searchBarTerm.toLowerCase()) ||
       productdetails.author.toLowerCase().includes(searchBarTerm.toLowerCase())

@@ -19,14 +19,14 @@ let NewArrivalsProvider = ({ children }) => {
     },
   ]);
 
-  const random_number = Math.floor(Math.random() * 10) + 1;
-  let parameter = random_number % 2 == 0 ? 'top-rated' : 'longest';
+  // const random_number = Math.floor(Math.random() * 10) + 1;
+  // let parameter = random_number % 2 == 0 ? 'top-rated' : 'longest';
 
   useEffect(() => {
     try {
       (async () => {
         const productsAvailableData = await axios.get(
-          `http://127.0.0.1:8000/api/${parameter}`
+          `http://127.0.0.1:8000/api/top-rated`
         );
         console.log(productsAvailableData);
         setNewArrivalsProductList([...productsAvailableData.data]);

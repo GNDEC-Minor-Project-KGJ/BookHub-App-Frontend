@@ -38,8 +38,8 @@ function ProductPage() {
   const _id = id;
   const imgSrc = url;
   const bookName = title;
-  const description = "Lorem ipsum"
-  const rating = 4.3
+  const description = 'Lorem ipsum';
+  const rating = 4.3;
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -51,7 +51,7 @@ function ProductPage() {
       } else {
         (async function getUpdatedWishlistAndCart() {
           let updatedUserInfo = await axios.get(
-            'http://127.0.0.1:8000/api/user',
+            'http://localhost:5000/api/user',
             {
               headers: {
                 'x-access-token': localStorage.getItem('token'),
@@ -85,25 +85,35 @@ function ProductPage() {
         showToast('warning', '', 'Kindly Login');
         navigate('/login');
       } else {
-        let wishlistUpdateResponse = await axios.patch(
-          'http://127.0.0.1:8000/api/wishlist',
-          {
-            productdetails,
-          },
-          {
-            headers: {
-              'x-access-token': localStorage.getItem('token'),
-            },
-          }
-        );
+        let wishlistProducts =
+          JSON.parse(localStorage.getItem('wishlistProducts')) || [];
+        showToast('success', '', 'Item successfully added to wishlist');
+        console.log(wishlistProducts);
+        wishlistProducts.push(productdetails);
 
-        if (wishlistUpdateResponse.data.status === 'ok') {
-          dispatchUserWishlist({
-            type: 'UPDATE_USER_WISHLIST',
-            payload: wishlistUpdateResponse.data.user.wishlist,
-          });
-          showToast('success', '', 'Item successfully added to wishlist');
-        }
+        localStorage.setItem(
+          'wishlistProducts',
+          JSON.stringify(wishlistProducts)
+        );
+        // let wishlistUpdateResponse = await axios.patch(
+        //   'http://localhost:5000/api/wishlist',
+        //   {
+        //     productdetails,
+        //   },
+        //   {
+        //     headers: {
+        //       'x-access-token': localStorage.getItem('token'),
+        //     },
+        //   }
+        // );
+
+        // if (wishlistUpdateResponse.data.status === 'ok') {
+        //   dispatchUserWishlist({
+        //     type: 'UPDATE_USER_WISHLIST',
+        //     payload: wishlistUpdateResponse.data.user.wishlist,
+        //   });
+        //   showToast('success', '', 'Item successfully added to wishlist');
+        // }
       }
     } else {
       showToast('warning', '', 'Kindly Login');
@@ -121,24 +131,32 @@ function ProductPage() {
         showToast('warning', '', 'Kindly Login');
         navigate('/login');
       } else {
-        let cartUpdateResponse = await axios.patch(
-          'http://127.0.0.1:8000/api/cart',
-          {
-            productdetails,
-          },
-          {
-            headers: {
-              'x-access-token': localStorage.getItem('token'),
-            },
-          }
-        );
-        if (cartUpdateResponse.data.status === 'ok') {
-          dispatchUserCart({
-            type: 'UPDATE_USER_CART',
-            payload: cartUpdateResponse.data.user.cart,
-          });
-          showToast('success', '', 'Item successfully added to cart');
-        }
+        showToast('success', '', 'Item successfully added to cart');
+        let cartProducts =
+          JSON.parse(localStorage.getItem('cartProducts')) || [];
+        console.log(cartProducts);
+        cartProducts.push(productdetails);
+
+        localStorage.setItem('cartProducts', JSON.stringify(cartProducts));
+
+        // let cartUpdateResponse = await axios.patch(
+        //   'http://localhost:5000/api/cart',
+        //   {
+        //     productdetails,
+        //   },
+        //   {
+        //     headers: {
+        //       'x-access-token': localStorage.getItem('token'),
+        //     },
+        //   }
+        // );
+        // if (cartUpdateResponse.data.status === 'ok') {
+        //   dispatchUserCart({
+        //     type: 'UPDATE_USER_CART',
+        //     payload: cartUpdateResponse.data.user.cart,
+        //   });
+        //   showToast('success', '', 'Item successfully added to cart');
+        // }
       }
     } else {
       showToast('warning', '', 'Kindly Login');

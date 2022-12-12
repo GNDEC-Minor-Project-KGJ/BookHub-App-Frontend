@@ -17,17 +17,23 @@ export default function WishlistProductCard({ productdetails })
     const { dispatchUserCart } = useCart()
     const { showToast } = useToast()
     const {
-        _id, 
-        bookName,
-        author,
-        originalPrice,
-        discountedPrice,
-        discountPercent,
-        imgSrc, 
-        imgAlt,
-        badgeText, 
-        outOfStock
-    } = productdetails
+      id,
+      title,
+      author,
+      originalPrice = 100,
+      discountedPrice = 80,
+      discountPercent = 20,
+      url,
+      imgAlt = 'cover',
+      badgeText = 'on Sale',
+      outOfStock = false,
+    } = productdetails;
+
+    const _id = id;
+    const orderId = id;
+    const quantity = 1;
+    const imgSrc = url;
+    const bookName = title;
     const [wishlistHeartIcon, setWishlistHeartIcon] = useState("fa-heart-o")
     const [wishlistBtn, setWishlistBtn]             = useState("add-to-wishlist-btn")
 
@@ -68,7 +74,7 @@ export default function WishlistProductCard({ productdetails })
                 else
                 {
                     let wishlistUpdateResponse = await axios.patch(
-                        "https://bookztron.herokuapp.com/api/wishlist",
+                        "http://localhost:5000/api/wishlist",
                         {
                             productdetails
                         },
@@ -112,17 +118,16 @@ export default function WishlistProductCard({ productdetails })
                 else
                 {
                     let wishlistUpdateResponse = await axios.delete(
-                        `https://bookztron.herokuapp.com/api/wishlist/${productdetails._id}`,
-                        {
-                            headers:
-                            {
-                                'x-access-token': localStorage.getItem('token'),
-                            }
+                      `http://localhost:5000/api/wishlist/${productdetails._id}`,
+                      {
+                        headers: {
+                          'x-access-token': localStorage.getItem('token'),
                         },
-                        {
-                            productdetails
-                        }
-                    )
+                      },
+                      {
+                        productdetails,
+                      }
+                    );
                     if(wishlistUpdateResponse.data.status==="ok")
                     {
                         setWishlistHeartIcon("fa-heart-o")
@@ -137,6 +142,10 @@ export default function WishlistProductCard({ productdetails })
                 showToast("warning","","Kindly Login")
             }   
         }    
+    }
+
+    async function removeFromWishlist(value) {
+        console.log(value)
     }
 
     async function addItemToCart()
@@ -156,17 +165,16 @@ export default function WishlistProductCard({ productdetails })
             else
             {
                 let cartUpdateResponse = await axios.patch(
-                    "https://bookztron.herokuapp.com/api/cart",
-                    {
-                        productdetails
+                  'http://localhost:5000/api/cart',
+                  {
+                    productdetails,
+                  },
+                  {
+                    headers: {
+                      'x-access-token': localStorage.getItem('token'),
                     },
-                    {
-                        headers:
-                        {
-                            'x-access-token': localStorage.getItem('token'),
-                        }
-                    }
-                )
+                  }
+                );
                 if(cartUpdateResponse.data.status==="ok")
                 {
                     dispatchUserCart({type: "UPDATE_USER_CART",payload: cartUpdateResponse.data.user.cart})
@@ -224,10 +232,10 @@ export default function WishlistProductCard({ productdetails })
                         onClick={event=>{
                             event.preventDefault()
                             event.stopPropagation()
-                            addItemToCart(event)
+                            removeFromWishlist(event)
                         }}
                 >
-                        Add to Cart
+                        Remove from wishlist
                 </button>
             </div>
         </Link>

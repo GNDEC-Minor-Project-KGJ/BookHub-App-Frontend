@@ -74,27 +74,39 @@ export default function ProductCard({ productdetails }) {
           showToast('warning', '', 'Kindly Login');
           navigate('/login');
         } else {
-          let wishlistUpdateResponse = await axios.patch(
-            'https://bookztron.herokuapp.com/api/wishlist',
-            {
-              productdetails,
-            },
-            {
-              headers: {
-                'x-access-token': localStorage.getItem('token'),
-              },
-            }
+          let wishlistProducts = JSON.parse(localStorage.getItem('wishlistProducts')) || [];
+          showToast('success', '', 'Item successfully added to wishlist');
+          setWishlistHeartIcon('fa-heart');
+          setWishlistBtn('added-to-wishlist-btn');
+          console.log(wishlistProducts);
+          wishlistProducts.push(productdetails);
+
+          localStorage.setItem(
+            'wishlistProducts',
+            JSON.stringify(wishlistProducts)
           );
 
-          if (wishlistUpdateResponse.data.status === 'ok') {
-            setWishlistHeartIcon('fa-heart');
-            setWishlistBtn('added-to-wishlist-btn');
-            dispatchUserWishlist({
-              type: 'UPDATE_USER_WISHLIST',
-              payload: wishlistUpdateResponse.data.user.wishlist,
-            });
-            showToast('success', '', 'Item successfully added to wishlist');
-          }
+          // let wishlistUpdateResponse = await axios.patch(
+          //   'http://localhost:5000/api/wishlist',
+          //   {
+          //     productdetails,
+          //   },
+          //   {
+          //     headers: {
+          //       'x-access-token': localStorage.getItem('token'),
+          //     },
+          //   }
+          // );
+
+          // if (wishlistUpdateResponse.data.status === 'ok') {
+          //   setWishlistHeartIcon('fa-heart');
+          //   setWishlistBtn('added-to-wishlist-btn');
+          //   dispatchUserWishlist({
+          //     type: 'UPDATE_USER_WISHLIST',
+          //     payload: wishlistUpdateResponse.data.user.wishlist,
+          //   });
+          //   showToast('success', '', 'Item successfully added to wishlist');
+          // }
         }
       } else {
         showToast('warning', '', 'Kindly Login');
@@ -112,7 +124,7 @@ export default function ProductCard({ productdetails }) {
           navigate('/login');
         } else {
           let wishlistUpdateResponse = await axios.delete(
-            `https://bookztron.herokuapp.com/api/wishlist/${productdetails._id}`,
+            `http://localhost:5000/api/wishlist/${productdetails._id}`,
             {
               headers: {
                 'x-access-token': localStorage.getItem('token'),

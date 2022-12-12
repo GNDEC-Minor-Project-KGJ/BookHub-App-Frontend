@@ -1,72 +1,92 @@
-import React, { useState, useEffect, useRef } from "react";
-import './Sidebar.css'
-import { useProductAvailable } from "../../Context/product-context"
-import { useGenre } from "../../Context/genre-context";
+import React, { useState, useEffect, useRef } from 'react';
+import './Sidebar.css';
+import { useProductAvailable } from '../../Context/product-context';
+import { useGenre } from '../../Context/genre-context';
 
 function Sidebar() {
   const {
-  productsAvailableList,
-  dispatchSortedProductsList,
-  productFilterOptions,
-  dispatchProductFilterOptions
-  } = useProductAvailable()
+    productsAvailableList,
+    dispatchSortedProductsList,
+    productFilterOptions,
+    dispatchProductFilterOptions,
+  } = useProductAvailable();
 
   const {
     fictionCategoryCheckbox,
     setFictionCategoryCheckbox,
-    thrillerCategoryCheckbox, 
+    thrillerCategoryCheckbox,
     setThrillerCategoryCheckbox,
-    techCategoryCheckbox, 
+    techCategoryCheckbox,
     setTechCategoryCheckbox,
-    philosophyCategoryCheckbox, 
+    philosophyCategoryCheckbox,
     setPhilosophyCategoryCheckbox,
-    romanceCategoryCheckbox, 
+    romanceCategoryCheckbox,
     setRomanceCategoryCheckbox,
-    mangaCategoryCheckbox, 
-    setMangaCategoryCheckbox, 
-  } = useGenre()
+    mangaCategoryCheckbox,
+    setMangaCategoryCheckbox,
+    businessCheckbox,
+    setBusinessCheckbox,
+    nonfictionCheckbox,
+    setNonfictionCheckbox,
+  } = useGenre();
 
-  const ratingRadioBtnRef = useRef(null)
+  const ratingRadioBtnRef = useRef(null);
 
-  const [sortPriceLowToHigh, setSortPriceLowToHigh ] = useState(false)
-  const [sortPriceHighToLow, setSortPriceHighToLow ] = useState(false)
-  
-  const [includeOutOfStockCheckbox, setIncludeOutOfStockCheckbox] = useState(true);
-  const [fastDeliveryOnlyCheckbox, setFastDeliveryOnlyCheckbox] = useState(false);
+  const [sortPriceLowToHigh, setSortPriceLowToHigh] = useState(false);
+  const [sortPriceHighToLow, setSortPriceHighToLow] = useState(false);
+
+  const [includeOutOfStockCheckbox, setIncludeOutOfStockCheckbox] =
+    useState(true);
+  const [fastDeliveryOnlyCheckbox, setFastDeliveryOnlyCheckbox] =
+    useState(false);
 
   const [minPriceRange, setMinPriceRange] = useState(0);
   const [maxPriceRange, setMaxPriceRange] = useState(1200);
 
+  useEffect(() => {
+    dispatchSortedProductsList({
+      type: 'UPDATE_LIST_AS_PER_FILTERS',
+      payload: productFilterOptions,
+    });
+    if (sortPriceLowToHigh) {
+      setSortPriceLowToHigh(true);
+      setSortPriceHighToLow(false);
+      dispatchSortedProductsList({ type: 'PRICE_LOW_TO_HIGH' });
+    }
+    if (sortPriceHighToLow) {
+      setSortPriceLowToHigh(false);
+      setSortPriceHighToLow(true);
+      dispatchSortedProductsList({ type: 'PRICE_HIGH_TO_LOW' });
+    }
+  }, [productFilterOptions, dispatchSortedProductsList]);
 
-  useEffect(()=>{
-    dispatchSortedProductsList({type:"UPDATE_LIST_AS_PER_FILTERS",payload:productFilterOptions})
-    if(sortPriceLowToHigh){ setSortPriceLowToHigh(true); setSortPriceHighToLow(false); dispatchSortedProductsList({type:"PRICE_LOW_TO_HIGH"}) }
-    if(sortPriceHighToLow){ setSortPriceLowToHigh(false); setSortPriceHighToLow(true); dispatchSortedProductsList({type:"PRICE_HIGH_TO_LOW"}) }
-  },[productFilterOptions, dispatchSortedProductsList])
-
-  function clearFilters()
-  {
-    setMinPriceRange(0)
-    setMaxPriceRange(1200)
-    setFictionCategoryCheckbox(true)
-    setThrillerCategoryCheckbox(true)
-    setTechCategoryCheckbox(true)
-    setPhilosophyCategoryCheckbox(true)
-    setRomanceCategoryCheckbox(true)
-    setMangaCategoryCheckbox(true)
-    ratingRadioBtnRef.current.click()
-    setSortPriceLowToHigh(false) 
-    setSortPriceHighToLow(false)
-    setIncludeOutOfStockCheckbox(true)
-    setFastDeliveryOnlyCheckbox(false)
-    dispatchProductFilterOptions({type:"RESET_DEFAULT_FILTERS"})
+  function clearFilters() {
+    setMinPriceRange(0);
+    setMaxPriceRange(1200);
+    setFictionCategoryCheckbox(true);
+    setThrillerCategoryCheckbox(true);
+    setTechCategoryCheckbox(true);
+    setPhilosophyCategoryCheckbox(true);
+    setRomanceCategoryCheckbox(true);
+    setMangaCategoryCheckbox(true);
+    ratingRadioBtnRef.current.click();
+    setSortPriceLowToHigh(false);
+    setSortPriceHighToLow(false);
+    setIncludeOutOfStockCheckbox(true);
+    setFastDeliveryOnlyCheckbox(false);
+    dispatchProductFilterOptions({ type: 'RESET_DEFAULT_FILTERS' });
   }
 
   return (
     <aside className="product-page-sidebar">
       <div className="filter-clear-options">
         <p className="sidebar-filter-option">Filters</p>
-        <p onClick={clearFilters}className="sidebar-clear-option text-underline">Clear</p>
+        <p
+          onClick={clearFilters}
+          className="sidebar-clear-option text-underline"
+        >
+          Clear
+        </p>
       </div>
 
       <div className="price-slider">
@@ -77,10 +97,12 @@ function Sidebar() {
             <span>Min</span>
             <input
               onChange={(e) => {
-                setMinPriceRange(e.target.value); 
-                if(maxPriceRange-e.target.value>100)
-                {
-                  dispatchProductFilterOptions({type:"UPDATE_MIN_PRICE_RANGE_FILTER",minPrice:e.target.value})
+                setMinPriceRange(e.target.value);
+                if (maxPriceRange - e.target.value > 100) {
+                  dispatchProductFilterOptions({
+                    type: 'UPDATE_MIN_PRICE_RANGE_FILTER',
+                    minPrice: e.target.value,
+                  });
                 }
               }}
               type="number"
@@ -95,10 +117,12 @@ function Sidebar() {
             <input
               onChange={(e) => {
                 setMaxPriceRange(e.target.value);
-                if(e.target.value-minPriceRange>100)
-                {
-                  setMaxPriceRange(e.target.value); 
-                  dispatchProductFilterOptions({type:"UPDATE_MAX_PRICE_RANGE_FILTER",maxPrice:e.target.value})
+                if (e.target.value - minPriceRange > 100) {
+                  setMaxPriceRange(e.target.value);
+                  dispatchProductFilterOptions({
+                    type: 'UPDATE_MAX_PRICE_RANGE_FILTER',
+                    maxPrice: e.target.value,
+                  });
                 }
               }}
               type="number"
@@ -113,8 +137,8 @@ function Sidebar() {
           <div
             className="progress"
             style={{
-              left: (minPriceRange / 1200) * 100 + "%",
-              right: 100 - (maxPriceRange / 1200) * 100 + "%",
+              left: (minPriceRange / 1200) * 100 + '%',
+              right: 100 - (maxPriceRange / 1200) * 100 + '%',
             }}
           ></div>
         </div>
@@ -122,10 +146,12 @@ function Sidebar() {
         <div className="range-input">
           <input
             onChange={(e) => {
-              if(maxPriceRange-e.target.value>100)
-              {
-                setMinPriceRange(e.target.value); 
-                dispatchProductFilterOptions({type:"UPDATE_MIN_PRICE_RANGE_FILTER",minPrice:e.target.value})
+              if (maxPriceRange - e.target.value > 100) {
+                setMinPriceRange(e.target.value);
+                dispatchProductFilterOptions({
+                  type: 'UPDATE_MIN_PRICE_RANGE_FILTER',
+                  minPrice: e.target.value,
+                });
               }
             }}
             type="range"
@@ -137,10 +163,12 @@ function Sidebar() {
           />
           <input
             onChange={(e) => {
-              if(e.target.value-minPriceRange>100)
-              {
-                setMaxPriceRange(e.target.value); 
-                dispatchProductFilterOptions({type:"UPDATE_MAX_PRICE_RANGE_FILTER",maxPrice:e.target.value})
+              if (e.target.value - minPriceRange > 100) {
+                setMaxPriceRange(e.target.value);
+                dispatchProductFilterOptions({
+                  type: 'UPDATE_MAX_PRICE_RANGE_FILTER',
+                  maxPrice: e.target.value,
+                });
               }
             }}
             type="range"
@@ -155,6 +183,7 @@ function Sidebar() {
 
       <div className="product-category">
         <p>Category</p>
+        {/* 
         <div className="checkbox-item">
           <input
             onChange={() =>{ setFictionCategoryCheckbox(prevState=>!prevState); dispatchProductFilterOptions({type:"UPDATE_FICTION_FILTER"}) }}
@@ -213,10 +242,32 @@ function Sidebar() {
             checked={mangaCategoryCheckbox}
           />
           <label htmlFor="manga-checkbox">Manga</label>
+        </div> */}
+        <div className="checkbox-item">
+          <input
+            onChange={() => {
+              setBusinessCheckbox((prevState) => !prevState);
+            }}
+            id="Business-checkbox"
+            type="checkbox"
+            checked={businessCheckbox}
+          />
+          <label htmlFor="Business-checkbox">Business</label>
+        </div>
+        <div className="checkbox-item">
+          <input
+            onChange={() => {
+              setNonfictionCheckbox((prevState) => !prevState);
+            }}
+            id="nonfiction-checkbox"
+            type="checkbox"
+            checked={nonfictionCheckbox}
+          />
+          <label htmlFor="nonfiction-checkbox">Non-Fiction</label>
         </div>
       </div>
 
-      <div className="product-page-rating-radio">
+      {/* <div className="product-page-rating-radio">
         <p>Rating</p>
 
         <div className="rating-items">
@@ -232,7 +283,7 @@ function Sidebar() {
 
         <div className="rating-items">
           <input
-            onChange={() => dispatchProductFilterOptions({type:"UPDATE_MINIMUM_RATING_FILTER",minRating : 3})   }
+            onChange={() => dispatchProductFilterOptions({type:"UPDATE_MINIMUM_RATING_FILTER", minRating : 3})   }
             type="radio"
             id="3-stars-or-above"
             name="rating"
@@ -243,7 +294,7 @@ function Sidebar() {
 
         <div className="rating-items">
           <input
-            onChange={() => dispatchProductFilterOptions({type:"UPDATE_MINIMUM_RATING_FILTER",minRating : 2})   }
+            onChange={() => dispatchProductFilterOptions({type:"UPDATE_MINIMUM_RATING_FILTER", minRating : 2})   }
             type="radio"
             id="2-stars-or-above"
             name="rating"
@@ -254,7 +305,7 @@ function Sidebar() {
 
         <div className="rating-items">
           <input
-            onChange={() => dispatchProductFilterOptions({type:"UPDATE_MINIMUM_RATING_FILTER",minRating : 1})   }
+            onChange={() => dispatchProductFilterOptions({type:"UPDATE_MINIMUM_RATING_FILTER", minRating : 1})   }
             type="radio"
             id="1-stars-or-above"
             name="rating"
@@ -264,14 +315,18 @@ function Sidebar() {
           />
           <label htmlFor="1-stars-or-above">1 stars or above</label>
         </div>
-      </div>
+      </div> */}
 
       <div className="product-page-sortby-radio">
         <p>Sort By</p>
 
         <div className="sortby-items">
           <input
-            onChange={() => { setSortPriceLowToHigh(true); setSortPriceHighToLow(false); dispatchSortedProductsList({type:"PRICE_LOW_TO_HIGH"}) } }
+            onChange={() => {
+              setSortPriceLowToHigh(true);
+              setSortPriceHighToLow(false);
+              dispatchSortedProductsList({ type: 'PRICE_LOW_TO_HIGH' });
+            }}
             type="radio"
             id="price-low-to-high"
             name="sort-by"
@@ -283,7 +338,11 @@ function Sidebar() {
 
         <div className="sortby-items">
           <input
-            onChange={() => { setSortPriceLowToHigh(false); setSortPriceHighToLow(true); dispatchSortedProductsList({type:"PRICE_HIGH_TO_LOW"}) } }
+            onChange={() => {
+              setSortPriceLowToHigh(false);
+              setSortPriceHighToLow(true);
+              dispatchSortedProductsList({ type: 'PRICE_HIGH_TO_LOW' });
+            }}
             type="radio"
             id="price-high-to-low"
             name="sort-by"
@@ -301,7 +360,12 @@ function Sidebar() {
           <input
             id="out-of-stock-checkbox"
             value=""
-            onChange={(e) => {setIncludeOutOfStockCheckbox(prevState=>!prevState); dispatchProductFilterOptions({type:"UPDATE_OUTOFSTOCK_FILTER"}) }  }
+            onChange={(e) => {
+              setIncludeOutOfStockCheckbox((prevState) => !prevState);
+              dispatchProductFilterOptions({
+                type: 'UPDATE_OUTOFSTOCK_FILTER',
+              });
+            }}
             type="checkbox"
             checked={includeOutOfStockCheckbox}
           />
@@ -314,7 +378,12 @@ function Sidebar() {
           <input
             id="fast-delivery-available-checkbox"
             value=""
-            onChange={(e) => {setFastDeliveryOnlyCheckbox(prevState=>!prevState); dispatchProductFilterOptions({type:"UPDATE_FASTDELIVERY_FILTER"})} }
+            onChange={(e) => {
+              setFastDeliveryOnlyCheckbox((prevState) => !prevState);
+              dispatchProductFilterOptions({
+                type: 'UPDATE_FASTDELIVERY_FILTER',
+              });
+            }}
             type="checkbox"
             checked={fastDeliveryOnlyCheckbox}
           />

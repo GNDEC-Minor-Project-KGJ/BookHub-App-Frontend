@@ -36,7 +36,7 @@ function Orders() {
         if (userOrders.length === 0) {
           (async function getUpdatedWishlistAndCart() {
             let updatedUserInfo = await axios.get(
-              'https://bookhub-y13z.onrender.com/api/user',
+              'http://localhost:5000/api/user',
               {
                 headers: {
                   'x-access-token': localStorage.getItem('token'),
