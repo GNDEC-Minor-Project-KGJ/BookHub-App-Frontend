@@ -23,14 +23,18 @@ let NewArrivalsProvider = ({ children }) => {
   // let parameter = random_number % 2 == 0 ? 'top-rated' : 'longest';
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
     try {
-      (async () => {
-        const productsAvailableData = await axios.get(
-          `http://127.0.0.1:8000/api/top-rated`
-        );
-        console.log(productsAvailableData);
-        setNewArrivalsProductList([...productsAvailableData.data]);
-      })();
+     (async () => {
+       const productsAvailableData = await axios.get(
+         `http://localhost:5000/api/product/top-rated`,
+         {
+           headers: { Authorization: `Bearer ${token}` },
+         }
+       );
+       console.log(productsAvailableData.data.products);
+       setNewArrivalsProductList([...productsAvailableData.data.products]);
+     })();
     } catch (error) {
       console.log('Error : ', error);
     }

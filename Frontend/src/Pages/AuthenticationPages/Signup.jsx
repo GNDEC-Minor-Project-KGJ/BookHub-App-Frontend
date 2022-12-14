@@ -18,13 +18,13 @@ function Signup() {
   const signupUser = (event) => {
     event.preventDefault();
     axios
-      .post('http://localhost:5000/api/signup', {
+      .post('http://localhost:5000/api/user/signup', {
         name: `${newUserName}`,
         email: `${newUserEmail}`,
         password: `${newUserPassword}`,
       })
       .then((res) => {
-        if (res.status == 200) {
+        if (res.status == 200 || res.status == 201) {
           //User created successfully, navigate to Login Page
           showToast('success', '', 'New user created successfully');
           navigate('/login');

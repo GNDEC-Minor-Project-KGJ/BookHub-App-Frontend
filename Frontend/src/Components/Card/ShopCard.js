@@ -6,7 +6,7 @@ import './ProductCard.css';
 import { useToast } from '../../Context/toast-context';
 import { useWishlist } from '../../Context/wishlist-context';
 
-export default function ProductCard({ productdetails }) {
+export default function ShopCard({ productdetails }) {
   const navigate = useNavigate();
 
   const { userWishlist, dispatchUserWishlist } = useWishlist();
@@ -25,20 +25,21 @@ export default function ProductCard({ productdetails }) {
   // } = productdetails
 
   const {
-    _id,
+    id,
     title,
     author,
     originalPrice = 100,
     discountedPrice = 80,
     discountPercent = 20,
-    image,
+    url,
     imgAlt = 'cover',
     badgeText = 'on Sale',
     outOfStock = false,
   } = productdetails;
 
-  console.log('product ID: ' + _id);
-  const imgSrc = image;
+  // console.log('product ID: ' + id);
+  const _id = id;
+  const imgSrc = url;
   const bookName = title;
 
   const [wishlistHeartIcon, setWishlistHeartIcon] = useState('fa-heart-o');
@@ -74,7 +75,8 @@ export default function ProductCard({ productdetails }) {
           showToast('warning', '', 'Kindly Login');
           navigate('/login');
         } else {
-          let wishlistProducts = JSON.parse(localStorage.getItem('wishlistProducts')) || [];
+          let wishlistProducts =
+            JSON.parse(localStorage.getItem('wishlistProducts')) || [];
           showToast('success', '', 'Item successfully added to wishlist');
           setWishlistHeartIcon('fa-heart');
           setWishlistBtn('added-to-wishlist-btn');
@@ -198,4 +200,4 @@ export default function ProductCard({ productdetails }) {
   );
 }
 
-export { ProductCard };
+export { ShopCard };

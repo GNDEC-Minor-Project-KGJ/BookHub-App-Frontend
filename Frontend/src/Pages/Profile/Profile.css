@@ -6,3 +6,10 @@
 .user-desc {
     margin: 30px 50px;
 }
+
+.homepage-headings
+{
+    margin-top: 6rem;
+    margin-bottom: 0;
+    background-color: var(--pure-white);
+}

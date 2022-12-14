@@ -13,6 +13,10 @@ import {
 import { useProductAvailable } from '../../Context/product-context';
 import axios from 'axios';
 
+import { ShopCard } from '../../Components/Card/ShopCard';
+import { BusinessBooks } from '../../Components/BusinessBooks/BusinessBooks';
+import { NonFictionBooks } from '../../Components/NonFictionBooks/NonFictionBooks';
+
 function Shop(props) {
   let {
     productsAvailableList,
@@ -26,6 +30,8 @@ function Shop(props) {
   const { searchBarTerm } = useSearchBar();
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage, setProductsPerPage] = useState(10);
+
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -54,12 +60,18 @@ function Shop(props) {
       try {
         (async () => {
           const productsAvailableData = await axios.get(
-            'http://127.0.0.1:8000/api/book-list'
+            'http://localhost:5000/api/product',
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
           );
-          console.log(productsAvailableData.data);
+          console.log('++++++++++++++++++++++++++++++++++++++')
+          console.log(productsAvailableData.data.product);
+          console.log('++++++++++++++++++++++++++++++++++++++');
+          
           dispatchSortedProductsList({
             type: 'ADD_ITEMS_TO_PRODUCTS_AVAILABLE_LIST',
-            payload: [...productsAvailableData.data].splice(0, 50),
+            payload: [...productsAvailableData.data.product],
           });
         })();
       } catch (error) {
@@ -69,8 +81,6 @@ function Shop(props) {
   }, []);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-
     if (token) {
       const user = jwt_decode(token);
       if (!user) {
@@ -78,10 +88,10 @@ function Shop(props) {
       } else {
         (async function getUpdatedWishlistAndCart() {
           let updatedUserInfo = await axios.get(
-            'http://localhost:5000/api/user',
+            'http://localhost:5000/api/user/getUser',
             {
               headers: {
-                'x-access-token': localStorage.getItem('token'),
+                headers: { Authorization: `Bearer ${token}` },
               },
             }
           );
@@ -123,42 +133,47 @@ function Shop(props) {
 
   return (
     <div>
-      <div className="shop-container">
-        <Sidebar />
-        <div className="products-container">
-          <h2>
-            Showing{' '}
-            {searchBarTerm === ''
-              ? productsAvailableList.length
-              : searchedProducts.length}{' '}
-            products
-          </h2>
-          <div className="products-card-grid">
-            {productsAvailableList &&
-              (searchBarTerm === ''
-                ? currentProductsAvailableList.map((productdetails) => (
-                    <ProductCard
-                      key={productdetails._id}
-                      productdetails={productdetails}
-                    />
-                  ))
-                : currentSearchedProducts.map((productdetails) => (
-                    <ProductCard
-                      key={productdetails._id}
-                      productdetails={productdetails}
-                    />
-                  )))}
-          </div>
-          <Pagination
-            productsPerPage={productsPerPage}
-            totalProducts={
-              searchBarTerm === ''
-                ? productsAvailableList.length
-                : searchedProducts.length
-            }
-            paginate={setCurrentPage}
-          />
+      <h1 className="homepage-headings">Shop</h1>
+      <h2 className="homepage-headings">Recommendations on Business Genre</h2>
+      <BusinessBooks />
+
+      <h2 className="homepage-headings">
+        Recommendations on Non-Fiction Genre
+      </h2>
+      <NonFictionBooks />
+      <div className="products-container">
+        <h2>
+          Showing{' '}
+          {searchBarTerm === ''
+            ? productsAvailableList.length
+            : searchedProducts.length}{' '}
+          products Based on your interests
+        </h2>
+        <div className="products-card-grid">
+          {productsAvailableList &&
+            (searchBarTerm === ''
+              ? currentProductsAvailableList.map((productdetails) => (
+                  <ShopCard
+                    key={productdetails._id}
+                    productdetails={productdetails}
+                  />
+                ))
+              : currentSearchedProducts.map((productdetails) => (
+                  <ShopCard
+                    key={productdetails._id}
+                    productdetails={productdetails}
+                  />
+                )))}
         </div>
+        <Pagination
+          productsPerPage={productsPerPage}
+          totalProducts={
+            searchBarTerm === ''
+              ? productsAvailableList.length
+              : searchedProducts.length
+          }
+          paginate={setCurrentPage}
+        />
       </div>
     </div>
   );

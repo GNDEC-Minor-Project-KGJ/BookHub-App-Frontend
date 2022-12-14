@@ -5,7 +5,7 @@ import LoadingLottie from '../../Assets/Lottie/loading-0.json';
 
 import axios from 'axios';
 
-function Featured() {
+function NonFictionBooks() {
   const [featuredProductList, setFeaturedProductList] = React.useState([
     {
       _id: '6399cab4e1fdf1923cec8986',
@@ -31,13 +31,13 @@ function Featured() {
     try {
       (async () => {
         const productsAvailableData = await axios.get(
-          `http://localhost:5000/api/product/featured`,
+          `http://localhost:5000/api/product/genre/Non-Fiction`,
           {
             headers: { 'Authorization': `Bearer ${token}` },
           }
         );
         console.log(productsAvailableData.data.products);
-        setFeaturedProductList([...productsAvailableData.data.products]);
+        setFeaturedProductList([...productsAvailableData.data.products.splice(0, 4)]);
       })();
     } catch (error) {
       console.log('Error : ', error);
@@ -77,4 +77,4 @@ function Featured() {
   );
 }
 
-export { Featured };
+export { NonFictionBooks };

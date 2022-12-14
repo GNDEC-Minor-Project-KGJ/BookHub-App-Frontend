@@ -21,41 +21,58 @@ function Login() {
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
 
+  // useEffect(() => {
+  //   const token = localStorage.getItem('token');
+
+  //   if (token) {
+  //     const user = jwt_decode(token);
+  //     if (!user) {
+  //       localStorage.removeItem('token');
+  //     } else {
+  //       (async function getUpdatedWishlistAndCart() {
+  //         let updatedUserInfo = await axios.get(
+  //           'http://localhost:5000/api/user',
+  //           {
+  //             headers: {
+  //               'x-access-token': localStorage.getItem('token'),
+  //             },
+  //           }
+  //         );
+
+  //         if (updatedUserInfo.status == 200) {
+  //           dispatchUserWishlist({
+  //             type: 'UPDATE_USER_WISHLIST',
+  //             payload: updatedUserInfo.data.user.wishlist,
+  //           });
+  //           dispatchUserCart({
+  //             type: 'UPDATE_USER_CART',
+  //             payload: updatedUserInfo.data.user.cart,
+  //           });
+  //           dispatchUserOrders({
+  //             type: 'UPDATE_USER_ORDERS',
+  //             payload: updatedUserInfo.data.user.orders,
+  //           });
+  //         }
+  //       })();
+  //     }
+  //   }
+  // }, []);
+
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const getToken = () => {
+      const token = localStorage.getItem('token');
+      return token;
+    };
 
-    if (token) {
-      const user = jwt_decode(token);
-      if (!user) {
-        localStorage.removeItem('token');
-      } else {
-        (async function getUpdatedWishlistAndCart() {
-          let updatedUserInfo = await axios.get(
-            'http://localhost:5000/api/user',
-            {
-              headers: {
-                'x-access-token': localStorage.getItem('token'),
-              },
-            }
-          );
-
-          if (updatedUserInfo.status == 200) {
-            dispatchUserWishlist({
-              type: 'UPDATE_USER_WISHLIST',
-              payload: updatedUserInfo.data.user.wishlist,
-            });
-            dispatchUserCart({
-              type: 'UPDATE_USER_CART',
-              payload: updatedUserInfo.data.user.cart,
-            });
-            dispatchUserOrders({
-              type: 'UPDATE_USER_ORDERS',
-              payload: updatedUserInfo.data.user.orders,
-            });
-          }
-        })();
-      }
-    }
+    (async function getUpdatedWishlistAndCart() {
+      let updatedUserInfo = await axios.get(
+        'http://localhost:5000/api/user/getUser',
+        {},
+        {
+          headers: { authorization: `Bearer ` + getToken() },
+        }
+      );
+    })();
   }, []);
 
   const navigate = useNavigate();
@@ -63,14 +80,16 @@ function Login() {
   function loginUser(event) {
     event.preventDefault();
     axios
-      .post('http://localhost:5000/api/signin', {
+      .post('http://localhost:5000/api/user/signin', {
         email: userEmail,
         password: userPassword,
       })
       .then((res) => {
-        if (res.data.user) {
-          console.log(res.data)
+        if (res.status == 200 || res.status == 201) {
+          console.log(res.data);
+
           localStorage.setItem('token', res.data.token);
+          // localStorage.setItem('token', res.data.token);
           showToast('success', '', 'Logged in successfully');
           setUserLoggedIn(true);
           // dispatchUserWishlist({

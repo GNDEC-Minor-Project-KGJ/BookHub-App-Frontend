@@ -16,6 +16,9 @@ import {
 import { useProductAvailable } from '../../Context/product-context';
 import { useGenre } from '../../Context/genre-context';
 
+import { BusinessBooks } from '../../Components/BusinessBooks/BusinessBooks';
+import { NonFictionBooks } from '../../Components/NonFictionBooks/NonFictionBooks';
+
 function Home() {
   const { dispatchProductFilterOptions } = useProductAvailable();
   const { dispatchUserWishlist } = useWishlist();
@@ -52,17 +55,6 @@ function Home() {
               },
             }
           );
-
-          // if (updatedUserInfo.data.status === 'ok') {
-          //   dispatchUserWishlist({
-          //     type: 'UPDATE_USER_WISHLIST',
-          //     payload: updatedUserInfo.data.user.wishlist,
-          //   });
-          //   dispatchUserCart({
-          //     type: 'UPDATE_USER_CART',
-          //     payload: updatedUserInfo.data.user.cart,
-          //   });
-          // }
         })();
       }
     }
@@ -121,8 +113,12 @@ function Home() {
       <NewArrivals />
       <h1 className="homepage-headings">Featured</h1>
       <Featured />
-      {/* <h1 className="homepage-headings">Recommended for You</h1>
-      <NewArrivals /> */}
+      <h1 className="homepage-headings">Recommendations on Business Genre</h1>
+      <BusinessBooks />
+      <h1 className="homepage-headings">
+        Recommendations on Non-Fiction Genre
+      </h1>
+      <NonFictionBooks />
       <Footer />
     </div>
   );

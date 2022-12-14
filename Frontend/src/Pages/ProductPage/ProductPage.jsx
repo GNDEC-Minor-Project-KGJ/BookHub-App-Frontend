@@ -6,16 +6,18 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { useToast, useWishlist, useCart } from '../../index';
 
+import { RecommendBooks } from '../../Components/RecommendBooks/RecommendBooks';
+
 function ProductPage() {
   const navigate = useNavigate();
-  const PURCHASED_BOOKS = [
-    'Bullshit Jobs: A Theory',
-    'Principles of Marketing',
-    'When to Rob a Bank',
-    'The Business School For People Who Like Helping People',
-    'Naked Statistics: Stripping the Dread from the Data',
-    'McKinsey Mind',
-  ];
+  // const PURCHASED_BOOKS = [
+  //   'Bullshit Jobs: A Theory',
+  //   'Principles of Marketing',
+  //   'When to Rob a Bank',
+  //   'The Business School For People Who Like Helping People',
+  //   'Naked Statistics: Stripping the Dread from the Data',
+  //   'McKinsey Mind',
+  // ];
 
   const { dispatchUserWishlist } = useWishlist();
   const { dispatchUserCart } = useCart();
@@ -29,50 +31,51 @@ function ProductPage() {
     originalPrice = 100,
     discountedPrice = 80,
     discountPercent = 20,
-    url,
+    image,
     imgAlt = 'cover',
     badgeText = 'on Sale',
     outOfStock = false,
   } = productdetails;
 
   const _id = id;
-  const imgSrc = url;
+  console.log('product ID: ' + _id);
+  const imgSrc = image;
   const bookName = title;
   const description = 'Lorem ipsum';
   const rating = 4.3;
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
+  // useEffect(() => {
+  //   const token = localStorage.getItem('token');
 
-    if (token) {
-      const user = jwt_decode(token);
-      if (!user) {
-        localStorage.removeItem('token');
-      } else {
-        (async function getUpdatedWishlistAndCart() {
-          let updatedUserInfo = await axios.get(
-            'http://localhost:5000/api/user',
-            {
-              headers: {
-                'x-access-token': localStorage.getItem('token'),
-              },
-            }
-          );
+  //   if (token) {
+  //     const user = jwt_decode(token);
+  //     if (!user) {
+  //       localStorage.removeItem('token');
+  //     } else {
+  //       (async function getUpdatedWishlistAndCart() {
+  //         let updatedUserInfo = await axios.get(
+  //           'http://localhost:5000/api/user',
+  //           {
+  //             headers: {
+  //               'x-access-token': localStorage.getItem('token'),
+  //             },
+  //           }
+  //         );
 
-          if (updatedUserInfo.data.status === 'ok') {
-            dispatchUserWishlist({
-              type: 'UPDATE_USER_WISHLIST',
-              payload: updatedUserInfo.data.user.wishlist,
-            });
-            dispatchUserCart({
-              type: 'UPDATE_USER_CART',
-              payload: updatedUserInfo.data.user.cart,
-            });
-          }
-        })();
-      }
-    }
-  }, []);
+  //         if (updatedUserInfo.data.status === 'ok') {
+  //           dispatchUserWishlist({
+  //             type: 'UPDATE_USER_WISHLIST',
+  //             payload: updatedUserInfo.data.user.wishlist,
+  //           });
+  //           dispatchUserCart({
+  //             type: 'UPDATE_USER_CART',
+  //             payload: updatedUserInfo.data.user.cart,
+  //           });
+  //         }
+  //       })();
+  //     }
+  //   }
+  // }, []);
 
   async function addItemToWishlist() {
     const token = localStorage.getItem('token');
@@ -164,59 +167,65 @@ function ProductPage() {
   }
 
   return (
-    <div className="product-page-container">
-      <div className="product-page-item">
-        <img className="bookcover-image" src={imgSrc} alt={imgAlt}></img>
-        <div className="item-details">
-          <h2>{bookName}</h2>
-          <hr></hr>
-          <p>
-            <b>Author : </b> &nbsp;&nbsp; <span>{author}</span>{' '}
-          </p>
-          <p className="item-description">
-            <b>Description : </b> &nbsp;&nbsp; <span>{description}</span>{' '}
-          </p>
-          <p className="item-rating">
-            <b>Rating : </b> &nbsp;&nbsp; <span>{rating}</span>{' '}
-          </p>
-          <h3 className="item-price-details">
-            Rs. {discountedPrice} &nbsp;&nbsp;<del>Rs. {originalPrice}</del>{' '}
-            &nbsp;&nbsp;
-            <span className="discount-on-item">({discountPercent}% off)</span>
-          </h3>
-          {outOfStock === true && (
-            <p className="out-of-stock-text">Item is currently out of stock</p>
-          )}
-          {outOfStock === true ? (
-            <div className="item-buttons">
-              <button className="item-notify-me-btn solid-primary-btn">
-                Notify Me
-              </button>
-            </div>
-          ) : (
-            <div className="item-buttons">
-              <button
-                onClick={(event) => {
-                  event.preventDefault();
-                  addItemToWishlist();
-                }}
-                className="solid-primary-btn"
-              >
-                Add to wishlist
-              </button>
-              <button
-                onClick={() => {
-                  addItemToCart();
-                }}
-                className="solid-warning-btn"
-              >
-                Add to cart
-              </button>
-            </div>
-          )}
+    <>
+      <div className="product-page-container">
+        <div className="product-page-item">
+          <img className="bookcover-image" src={imgSrc} alt={imgAlt}></img>
+          <div className="item-details">
+            <h2>{bookName}</h2>
+            <hr></hr>
+            <p>
+              <b>Author : </b> &nbsp;&nbsp; <span>{author}</span>{' '}
+            </p>
+            <p className="item-description">
+              <b>Description : </b> &nbsp;&nbsp; <span>{description}</span>{' '}
+            </p>
+            <p className="item-rating">
+              <b>Rating : </b> &nbsp;&nbsp; <span>{rating}</span>{' '}
+            </p>
+            <h3 className="item-price-details">
+              Rs. {discountedPrice} &nbsp;&nbsp;<del>Rs. {originalPrice}</del>{' '}
+              &nbsp;&nbsp;
+              <span className="discount-on-item">({discountPercent}% off)</span>
+            </h3>
+            {outOfStock === true && (
+              <p className="out-of-stock-text">
+                Item is currently out of stock
+              </p>
+            )}
+            {outOfStock === true ? (
+              <div className="item-buttons">
+                <button className="item-notify-me-btn solid-primary-btn">
+                  Notify Me
+                </button>
+              </div>
+            ) : (
+              <div className="item-buttons">
+                <button
+                  onClick={(event) => {
+                    event.preventDefault();
+                    addItemToWishlist();
+                  }}
+                  className="solid-primary-btn"
+                >
+                  Add to wishlist
+                </button>
+                <button
+                  onClick={() => {
+                    addItemToCart();
+                  }}
+                  className="solid-warning-btn"
+                >
+                  Add to cart
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+      <h1 className="homepage-headings">Recommendations for the book</h1>
+      <RecommendBooks _id={_id} />
+    </>
   );
 }
 
