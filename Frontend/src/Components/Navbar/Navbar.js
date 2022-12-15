@@ -12,6 +12,8 @@ import {
 } from '../../index';
 import { BsShopWindow, BsFillBagFill } from 'react-icons/bs';
 
+import axios from 'axios';
+
 function Navbar() {
   const { userWishlist, dispatchUserWishlist } = useWishlist();
   const { userCart, dispatchUserCart } = useCart();
@@ -20,6 +22,34 @@ function Navbar() {
   const { showToast } = useToast();
   const location = useLocation();
   const { searchBarTerm, setSearchBarTerm } = useSearchBar();
+
+  let userData = JSON.parse(localStorage.getItem('user')) || {};
+
+  const getToken = () => {
+    const token = localStorage.getItem('token');
+    return token;
+  };
+
+  const getUserData = async () => {
+    await axios
+      .get('http://localhost:5000/api/user', {
+        headers: { Authorization: `Bearer ` + getToken() },
+      })
+      .then((res) => {
+        console.log(res.data);
+        userData = res.data.user;
+        console.log({ userData });
+        localStorage.setItem('user', JSON.stringify(userData));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getUserData();
+    console.log(userData);
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -35,29 +65,29 @@ function Navbar() {
     }
   }, []);
 
-  useEffect(() => {
-    function handleInvalidToken() {
-      if (localStorage.getItem('token') !== null) {
-        setUserLoggedIn(true);
-      } else {
-        setUserLoggedIn(false);
-        dispatchUserWishlist({ type: 'UPDATE_USER_WISHLIST', payload: [] });
-        dispatchUserCart({ type: 'UPDATE_USER_CART', payload: [] });
-        dispatchUserOrders({ type: 'UPDATE_USER_ORDERS', payload: [] });
-      }
-    }
-    window.addEventListener('storage', handleInvalidToken);
+  // useEffect(() => {
+  //   function handleInvalidToken() {
+  //     if (localStorage.getItem('token') !== null) {
+  //       setUserLoggedIn(true);
+  //     } else {
+  //       setUserLoggedIn(false);
+  //       dispatchUserWishlist({ type: 'UPDATE_USER_WISHLIST', payload: [] });
+  //       dispatchUserCart({ type: 'UPDATE_USER_CART', payload: [] });
+  //       dispatchUserOrders({ type: 'UPDATE_USER_ORDERS', payload: [] });
+  //     }
+  //   }
+  //   window.addEventListener('storage', handleInvalidToken);
 
-    return function cleanup() {
-      window.removeEventListener('storage', handleInvalidToken);
-    };
-  }, [userWishlist, userCart]);
+  //   return function cleanup() {
+  //     window.removeEventListener('storage', handleInvalidToken);
+  //   };
+  // }, [userWishlist, userCart]);
 
   function logoutUser() {
     localStorage.removeItem('token');
-    dispatchUserWishlist({ type: 'UPDATE_USER_WISHLIST', payload: [] });
-    dispatchUserCart({ type: 'UPDATE_USER_CART', payload: [] });
-    dispatchUserOrders({ type: 'UPDATE_USER_ORDERS', payload: [] });
+    // dispatchUserWishlist({ type: 'UPDATE_USER_WISHLIST', payload: [] });
+    // dispatchUserCart({ type: 'UPDATE_USER_CART', payload: [] });
+    // dispatchUserOrders({ type: 'UPDATE_USER_ORDERS', payload: [] });
     setUserLoggedIn(false);
     localStorage.clear();
     showToast('success', '', 'Logged out successfully');
@@ -158,6 +188,26 @@ function Navbar() {
             </div>
           </button>
         </Link>
+        <p
+          style={{
+            color: 'black',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            fontSize: '24px',
+            padding: '5px',
+            border: '1px solid black',
+            marginLeft: '5px',
+          }}
+        >
+          {userData.credit} ©
+          <Link
+            style={{ fontSize: '32px', marginLeft: '10px', color: 'red', border: '1px solid black', borderRadius: '40%' }}
+            to="buy-credits"
+          >
+            +
+          </Link>
+        </p>
       </div>
     </div>
   );
