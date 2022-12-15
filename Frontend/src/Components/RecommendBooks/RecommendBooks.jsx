@@ -4,8 +4,9 @@ import Lottie from 'react-lottie';
 import LoadingLottie from '../../Assets/Lottie/loading-0.json';
 
 import axios from 'axios';
+import {ShopCard} from '../../Components/Card/ShopCard'
 
-function RecommendBooks({ _id }) {
+function RecommendBooks({ bookId }) {
   const [featuredProductList, setFeaturedProductList] = React.useState([
     {
       _id: '6399cab4e1fdf1923cec8986',
@@ -31,14 +32,14 @@ function RecommendBooks({ _id }) {
     try {
       (async () => {
         const productsAvailableData = await axios.get(
-          `http://localhost:5000/api/product/genre/Business`,
+          `http://localhost:5000/api/product/recommended/${bookId}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        console.log(productsAvailableData.data.products);
+        console.log(productsAvailableData.data.recommendedProducts);
         setFeaturedProductList([
-          ...productsAvailableData.data.products.splice(0, 4),
+          ...productsAvailableData.data.recommendedProducts.splice(0, 4),
         ]);
       })();
     } catch (error) {
@@ -73,7 +74,7 @@ function RecommendBooks({ _id }) {
   return (
     <div className="new-arrivals-container">
       {featuredProductList.map((product) => (
-        <ProductCard key={product.id} productdetails={product} />
+        <ShopCard key={product.bookId} productdetails={product} />
       ))}
     </div>
   );

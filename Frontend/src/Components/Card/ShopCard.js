@@ -41,6 +41,7 @@ export default function ShopCard({ productdetails }) {
   const _id = id;
   const imgSrc = url;
   const bookName = title;
+  const bookId = id;
 
   const [wishlistHeartIcon, setWishlistHeartIcon] = useState('fa-heart-o');
   const [wishlistBtn, setWishlistBtn] = useState('add-to-wishlist-btn');
@@ -154,12 +155,12 @@ export default function ShopCard({ productdetails }) {
 
   return (
     <Link
-      to={`/shop/${_id}`}
+      to={`/shop/${id}`}
       onClick={() =>
-        localStorage.setItem(`${_id}`, JSON.stringify(productdetails))
+        localStorage.setItem(`${id}`, JSON.stringify(productdetails))
       }
-      // target="_blank"
-      // rel="noopener noreferrer"
+      target="_blank"
+      rel="noopener noreferrer"
     >
       <div className="card-basic">
         <img src={imgSrc} alt={title} />

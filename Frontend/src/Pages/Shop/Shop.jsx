@@ -79,6 +79,7 @@ function Shop(props) {
       }
     }
   }, []);
+  
 
   useEffect(() => {
     if (token) {

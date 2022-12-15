@@ -32,12 +32,12 @@ export default function ProductCard({ productdetails }) {
     discountedPrice = 80,
     discountPercent = 20,
     image,
+    bookId,
     imgAlt = 'cover',
     badgeText = 'on Sale',
     outOfStock = false,
   } = productdetails;
 
-  console.log('product ID: ' + _id);
   const imgSrc = image;
   const bookName = title;
 
@@ -152,12 +152,12 @@ export default function ProductCard({ productdetails }) {
 
   return (
     <Link
-      to={`/shop/${_id}`}
+      to={`/shop/${bookId}`}
       onClick={() =>
-        localStorage.setItem(`${_id}`, JSON.stringify(productdetails))
+        localStorage.setItem(`${bookId}`, JSON.stringify(productdetails))
       }
-      // target="_blank"
-      // rel="noopener noreferrer"
+      target="_blank"
+      rel="noopener noreferrer"
     >
       <div className="card-basic">
         <img src={imgSrc} alt={title} />
