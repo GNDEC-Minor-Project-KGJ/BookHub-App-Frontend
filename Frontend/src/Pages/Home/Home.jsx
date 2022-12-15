@@ -109,9 +109,9 @@ function Home() {
         </button>
       </Link>
 
-      <h1 className="homepage-headings">Top Rated</h1>
+      <h1 className="homepage-headings">Top Rated Books</h1>
       <NewArrivals />
-      <h1 className="homepage-headings">Featured</h1>
+      <h1 className="homepage-headings">Featured Books</h1>
       <Featured />
       <h1 className="homepage-headings">Recommendations on Business Genre</h1>
       <BusinessBooks />

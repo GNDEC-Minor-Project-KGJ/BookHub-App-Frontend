@@ -65,10 +65,10 @@ function Shop(props) {
               headers: { Authorization: `Bearer ${token}` },
             }
           );
-          console.log('++++++++++++++++++++++++++++++++++++++')
+          console.log('++++++++++++++++++++++++++++++++++++++');
           console.log(productsAvailableData.data.product);
           console.log('++++++++++++++++++++++++++++++++++++++');
-          
+
           dispatchSortedProductsList({
             type: 'ADD_ITEMS_TO_PRODUCTS_AVAILABLE_LIST',
             payload: [...productsAvailableData.data.product],
@@ -79,7 +79,6 @@ function Shop(props) {
       }
     }
   }, []);
-  
 
   useEffect(() => {
     if (token) {
@@ -135,20 +134,18 @@ function Shop(props) {
   return (
     <div>
       <h1 className="homepage-headings">Shop</h1>
-      <h2 className="homepage-headings">Recommendations on Business Genre</h2>
+      <h2 className="homepage-headings">Business Genre Books</h2>
       <BusinessBooks />
 
-      <h2 className="homepage-headings">
-        Recommendations on Non-Fiction Genre
-      </h2>
+      <h2 className="homepage-headings">Non-Fiction Genre Books</h2>
       <NonFictionBooks />
       <div className="products-container">
         <h2>
-          Showing{' '}
+          {/* Showing{' '}
           {searchBarTerm === ''
             ? productsAvailableList.length
-            : searchedProducts.length}{' '}
-          products Based on your interests
+            : searchedProducts.length}{' '} */}
+          Books Based on your interests
         </h2>
         <div className="products-card-grid">
           {productsAvailableList &&

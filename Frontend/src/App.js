@@ -19,8 +19,9 @@ import {
 } from './index';
 
 import BookEditor from './Pages/BookEditor/BookEditor';
-import Profile from './Pages/Profile/Profile'
-import Read_Book from './Pages/Read_Book/Read_Book'
+import Profile from './Pages/Profile/Profile';
+import Read_Book from './Pages/Read_Book/Read_Book';
+import BuyCredits from './Pages/BuyCredits/BuyCredits';
 
 function App() {
   const { userLoggedIn } = useUserLogin();
@@ -43,6 +44,7 @@ function App() {
           <Route path="/orders" element={<Orders />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/read-book" element={<Read_Book />} />
+          <Route path="/buy-credits" element={<BuyCredits />} />
         </Routes>
         <Toast position="bottom-right" />
       </div>

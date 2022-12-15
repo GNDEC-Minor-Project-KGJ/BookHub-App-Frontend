@@ -70,7 +70,7 @@ function Navbar() {
         <Link to="/">
           <h2 className="top-bar-brand-name">BookHub</h2>
         </Link>
-        {location.pathname === '/shop' && (
+        {/* {location.pathname === '/shop' && (
           <div className="search-bar">
             <input
               className="search-bar-input"
@@ -79,7 +79,7 @@ function Navbar() {
               onChange={(event) => setSearchBarTerm(event.target.value)}
             />
           </div>
-        )}
+        )} */}
       </div>
       <div className="right-topbar-container">
         {localStorage.getItem('token') !== null ? (
@@ -96,13 +96,20 @@ function Navbar() {
             </button>
           </Link>
         )}
-        <Link to="/read-book">
+        <Link to="/shop">
           <button className="icon-btn">
             <div>
               <BsShopWindow />
             </div>
           </button>
         </Link>
+        {/* <Link to="/read-book">
+          <button className="icon-btn">
+            <div className="icon-count-badge">
+              <i className="fa fa-star fa-x" aria-hidden="true"></i>
+            </div>
+          </button>
+        </Link> */}
         <Link to="/editor">
           <button className="icon-btn">
             <div className="icon-count-badge">
