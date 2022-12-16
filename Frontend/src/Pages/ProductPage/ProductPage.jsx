@@ -193,7 +193,7 @@ function ProductPage() {
             <p className="item-rating">
               <b>Rating : </b> &nbsp;&nbsp; <span>{4.3}</span>{' '}
             </p>
-            <p>
+            <p className="item-rating">
               <b>Genre : </b> &nbsp;&nbsp; <span>{productDetails.genre}</span>{' '}
             </p>
             <h3 className="item-price-details">
@@ -207,6 +207,7 @@ function ProductPage() {
                 Item is currently out of stock
               </p>
             )}
+
             {outOfStock === true ? (
               <div className="item-buttons">
                 <button className="item-notify-me-btn solid-primary-btn">
