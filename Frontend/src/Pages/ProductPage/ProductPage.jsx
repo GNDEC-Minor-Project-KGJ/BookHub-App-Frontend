@@ -24,9 +24,7 @@ function ProductPage() {
   const token = localStorage.getItem("token");
   const outOfStock = false;
   let userData = JSON.parse(localStorage.getItem("user")) || {};
-  const [purchased, setPurchased] = React.useState(
-    userData.purchases.includes(productDetails.bookId)
-  );
+  const [purchased, setPurchased] = React.useState(false);
 
   const getUserData = async () => {
     await axios
@@ -151,6 +149,7 @@ function ProductPage() {
           getUserData();
         })
         .catch((err) => {
+          showToast("error", "Not Enough Credits");
           console.log(err);
         });
     } catch (error) {
@@ -227,23 +226,28 @@ function ProductPage() {
               </div>
             ) : (
               <div className="item-buttons">
-                <button
-                  onClick={(event) => {
-                    event.preventDefault();
-                    addItemToWishlist();
-                  }}
-                  className="solid-primary-btn"
-                >
-                  Add to wishlist
-                </button>
                 {userData.purchases.includes(id) ? (
                   <Link to="/read-book" className="solid-warning-btn">
-                    Read Book
+                    <button className="solid-warning-btn">Read Book</button>
                   </Link>
                 ) : (
-                  <button onClick={purchaseBook} className="solid-warning-btn">
-                    Buy Now
-                  </button>
+                  <>
+                    <button
+                      onClick={(event) => {
+                        event.preventDefault();
+                        addItemToWishlist();
+                      }}
+                      className="solid-primary-btn"
+                    >
+                      Add to wishlist
+                    </button>
+                    <button
+                      onClick={purchaseBook}
+                      className="solid-warning-btn"
+                    >
+                      Buy Now
+                    </button>
+                  </>
                 )}
               </div>
             )}
