@@ -15,3 +15,68 @@
     margin-bottom: "30px"
 }
 
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: space-around;
+  font-size: 24px;
+}
+
+@media (max-width: 900px) {
+    .mainContainer {
+        width: 90%;
+        margin: 30px 30px;
+    }
+}
+
+.inner2 {
+  margin-top: 80px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: space-around;
+    justify-content: center;
+    align-items: stretch;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  width: 900px;
+  margin: 0 100px;
+  justify-content: space-between;
+  margin-top: 15px;
+  line-height: 35px;
+}
+
+
+input {
+  max-width: 400px;
+  height: 35px;
+  padding-left: 10px;
+  /* outline: none; */
+  /* border: none; */
+  border-radius: 5px;
+  @media (min-width: 900px) {
+    width: 250px;
+  }
+}
+.sendButton {
+  height: 40px;
+  width: 200px;
+  outline: none;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 15px;
+  color: #d8e9ef;
+  background-color: #4ea1d3;
+  font-size: 25px;
+  font-weight: 500;
+  
+}
+
+.sendButton:hover {
+    background-color: #7bb1d1;
+    cursor: pointer;
+  }
