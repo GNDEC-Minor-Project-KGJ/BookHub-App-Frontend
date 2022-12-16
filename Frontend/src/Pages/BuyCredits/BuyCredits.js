@@ -37,7 +37,7 @@ function Buy_Credits() {
   return (
     <div className="container">
       <div className="inner">
-        <div className="heading">Buy Credits</div>
+        <div className="main-heading">Buy Credits</div>
         {data.map((credit) => {
           return (
             <CreditCard key={credit.credits + 1} credit={credit}></CreditCard>

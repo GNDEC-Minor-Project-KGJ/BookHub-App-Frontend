@@ -38,7 +38,7 @@ function MDEditor({ value, setValue }) {
         options={autofocusNoSpellcheckerOptions}
         onChange={onChange}
       />
-      <button onClick={handleCleanup}>Clear</button>
+      {/* <button onClick={handleCleanup}>Clear</button> */}
     </>
   );
 }

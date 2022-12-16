@@ -20,7 +20,7 @@
 {
     .item-author, .item-rating
     {
-        margin-top: 8px;
+        margin-top: 4px;
         margin-bottom: 8px;
     }
 }
@@ -48,7 +48,7 @@
 
 .bookcover-image
 {
-    height: 40rem;
+    height: 50rem;
 }
 
 .item-details
@@ -93,6 +93,7 @@
     justify-content: space-between;
     align-items: flex-end;
     gap: 1rem;
+    margin-top: 1rem;
 }
 
 .item-buttons button
@@ -109,4 +110,8 @@
 .item-notify-me-btn
 {
     background-color: var(--red-color);
+}
+
+.item-rating {
+    margin: 0 0 8px 0;
 }

@@ -1,6 +1,9 @@
 .home-component-container
 {
     background-color: var(--pure-white);
+    scroll-behavior: smooth;
+    scroll-snap-align: bottom;
+    scroll-padding-top: 400px;
 }
 
 .home-page-img-container
@@ -33,6 +36,8 @@
     gap: 5px;
     justify-content: center;
     justify-items: center;
+    align-content: center;
+    align-items: center;
     background-color: var(--pure-white);
 }
 

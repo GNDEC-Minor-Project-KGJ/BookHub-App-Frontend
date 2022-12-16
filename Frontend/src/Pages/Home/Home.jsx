@@ -12,6 +12,7 @@ import {
   Featured,
   useWishlist,
   useCart,
+  useToast,
 } from '../../index.js';
 import { useProductAvailable } from '../../Context/product-context';
 import { useGenre } from '../../Context/genre-context';
@@ -31,8 +32,11 @@ function Home() {
     setRomanceCategoryCheckbox,
     setMangaCategoryCheckbox,
   } = useGenre();
-
+  const { showToast } = useToast();
   const { pathname } = useLocation();
+
+  const businessSectionRef = React.useRef(null);
+  const nonFictionSectionRef = React.useRef(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -59,11 +63,15 @@ function Home() {
             );
           })();
         } catch (error) {
-          console.log(error)
+          console.log(error);
         }
       }
     }
   }, []);
+
+  const showMessage = () => {
+    showToast('success', 'Coming Soon!');
+  };
 
   return (
     <div className="home-component-container">
@@ -77,24 +85,120 @@ function Home() {
 
       <h1 className="homepage-headings">Genres</h1>
       <div className="genre-cards-container">
-        <Link to={''}>
+        <button
+          style={{
+            border: 'none',
+            outline: 'none',
+            padding: '0',
+            shadow: 'none',
+          }}
+          onClick={() => {
+            window.location.replace('/#Business');
+            businessSectionRef.current.focus();
+          }}
+        >
+          <GenreCard genretype="Business" />
+        </button>
+
+        <button
+          style={{
+            border: 'none',
+            outline: 'none',
+            padding: '0',
+            shadow: 'none',
+          }}
+          onClick={() => {
+            window.location.replace('/#Non-Fiction');
+            nonFictionSectionRef.current.focus();
+          }}
+        >
+          <GenreCard genretype="Non-Fiction" />
+        </button>
+        <button
+          style={{
+            border: 'none',
+            outline: 'none',
+            padding: '0',
+            shadow: 'none',
+          }}
+          onClick={() => {
+            showMessage();
+          }}
+          to={''}
+        >
           <GenreCard genretype="Fiction" />
-        </Link>
-        <Link to={''}>
+        </button>
+        <button
+          style={{
+            border: 'none',
+            outline: 'none',
+            padding: '0',
+            shadow: 'none',
+          }}
+          onClick={() => {
+            showMessage();
+          }}
+          to={''}
+        >
           <GenreCard genretype="Thriller" />
-        </Link>
-        <Link to={''}>
+        </button>
+        <button
+          style={{
+            border: 'none',
+            outline: 'none',
+            padding: '0',
+            shadow: 'none',
+          }}
+          onClick={() => {
+            showMessage();
+          }}
+          to={''}
+        >
           <GenreCard genretype="Tech" />
-        </Link>
-        <Link to={''}>
+        </button>
+        <button
+          style={{
+            border: 'none',
+            outline: 'none',
+            padding: '0',
+            shadow: 'none',
+          }}
+          onClick={() => {
+            showMessage();
+          }}
+          to={''}
+        >
           <GenreCard genretype="Philosophy" />
-        </Link>
-        <Link to={''}>
+        </button>
+        <button
+          style={{
+            border: 'none',
+            outline: 'none',
+            padding: '0',
+            shadow: 'none',
+          }}
+          onClick={() => {
+            showMessage();
+          }}
+          to={''}
+        >
           <GenreCard genretype="Romance" />
-        </Link>
-        <Link to={''} state={{ navigate: true }}>
+        </button>
+        <button
+          style={{
+            border: 'none',
+            outline: 'none',
+            padding: '0',
+            shadow: 'none',
+          }}
+          onClick={() => {
+            showMessage();
+          }}
+          to={''}
+          state={{ navigate: true }}
+        >
           <GenreCard genretype="Manga" />
-        </Link>
+        </button>
       </div>
 
       <Link to={'/shop'}>
@@ -118,11 +222,17 @@ function Home() {
       <NewArrivals />
       <h1 className="homepage-headings">Featured Books</h1>
       <Featured />
-      <h1 className="homepage-headings">Recommendations on Business Genre</h1>
-      <BusinessBooks />
-      <h1 className="homepage-headings">
-        Recommendations on Non-Fiction Genre
-      </h1>
+      <section ref={businessSectionRef}>
+        <h1 id="Business" className="homepage-headings">
+          Recommendations on Business Genre
+        </h1>
+        <BusinessBooks />
+      </section>
+      <section id="Non-Fiction" ref={nonFictionSectionRef}>
+        <h1 className="homepage-headings">
+          Recommendations on Non-Fiction Genre
+        </h1>
+      </section>
       <NonFictionBooks />
       <Footer />
     </div>
