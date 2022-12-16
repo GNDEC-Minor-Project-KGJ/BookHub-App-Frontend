@@ -39,6 +39,7 @@ function Home() {
   }, [pathname]);
 
   useEffect(() => {
+    document.title = 'BookHub | Home';
     const token = localStorage.getItem('token');
 
     if (token) {
@@ -46,16 +47,20 @@ function Home() {
       if (!user) {
         localStorage.removeItem('token');
       } else {
-        (async function getUpdatedWishlistAndCart() {
-          let updatedUserInfo = await axios.get(
-            `http://localhost:5000/api/user`,
-            {
-              headers: {
-                'x-access-token': localStorage.getItem('token'),
-              },
-            }
-          );
-        })();
+        try {
+          (async function getUpdatedWishlistAndCart() {
+            let updatedUserInfo = await axios.get(
+              `http://localhost:5000/api/user`,
+              {
+                headers: {
+                  'x-access-token': localStorage.getItem('token'),
+                },
+              }
+            );
+          })();
+        } catch (error) {
+          console.log(error)
+        }
       }
     }
   }, []);

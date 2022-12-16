@@ -16,6 +16,7 @@ import axios from 'axios';
 import { ShopCard } from '../../Components/Card/ShopCard';
 import { BusinessBooks } from '../../Components/BusinessBooks/BusinessBooks';
 import { NonFictionBooks } from '../../Components/NonFictionBooks/NonFictionBooks';
+import Loader from '../../Components/Loader/Loader';
 
 function Shop(props) {
   let {
@@ -31,6 +32,8 @@ function Shop(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage, setProductsPerPage] = useState(10);
 
+  const [loading, setLoading] = useState(false);
+
   const token = localStorage.getItem('token');
 
   useEffect(() => {
@@ -38,6 +41,7 @@ function Shop(props) {
   }, [pathname, currentPage]);
 
   useEffect(() => {
+    document.title = 'BookHub | Shop';
     if (
       JSON.stringify(productsAvailableList) === JSON.stringify([]) &&
       JSON.stringify(productFilterOptions) ===
@@ -57,6 +61,7 @@ function Shop(props) {
     ) {
       //Refresh happened - Filters are default yet productsAvailableList is empty
       //Redo api call to get data
+      setLoading(true);
       try {
         (async () => {
           const productsAvailableData = await axios.get(
@@ -73,6 +78,7 @@ function Shop(props) {
             type: 'ADD_ITEMS_TO_PRODUCTS_AVAILABLE_LIST',
             payload: [...productsAvailableData.data.product],
           });
+          setLoading(false);
         })();
       } catch (error) {
         console.log('Error : ', error);
@@ -86,27 +92,31 @@ function Shop(props) {
       if (!user) {
         localStorage.removeItem('token');
       } else {
-        (async function getUpdatedWishlistAndCart() {
-          let updatedUserInfo = await axios.get(
-            'http://localhost:5000/api/user/getUser',
-            {
-              headers: {
-                headers: { Authorization: `Bearer ${token}` },
-              },
-            }
-          );
+        try {
+          (async function getUpdatedWishlistAndCart() {
+            let updatedUserInfo = await axios.get(
+              'http://localhost:5000/api/user/getUser',
+              {
+                headers: {
+                  headers: { Authorization: `Bearer ${token}` },
+                },
+              }
+            );
 
-          if (updatedUserInfo.data.status === 'ok') {
-            dispatchUserWishlist({
-              type: 'UPDATE_USER_WISHLIST',
-              payload: updatedUserInfo.data.user.wishlist,
-            });
-            dispatchUserCart({
-              type: 'UPDATE_USER_CART',
-              payload: updatedUserInfo.data.user.cart,
-            });
-          }
-        })();
+            if (updatedUserInfo.data.status === 'ok') {
+              dispatchUserWishlist({
+                type: 'UPDATE_USER_WISHLIST',
+                payload: updatedUserInfo.data.user.wishlist,
+              });
+              dispatchUserCart({
+                type: 'UPDATE_USER_CART',
+                payload: updatedUserInfo.data.user.cart,
+              });
+            }
+          })();
+        } catch (error) {
+          console.error(error);
+        }
       }
     }
   }, []);
@@ -130,6 +140,8 @@ function Shop(props) {
     indexOfFirstProduct,
     indexOfLastProduct
   );
+
+  if (loading) return <Loader />;
 
   return (
     <div>

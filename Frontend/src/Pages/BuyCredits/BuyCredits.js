@@ -32,6 +32,8 @@ function Buy_Credits() {
     },
   ];
 
+  document.title = 'BookHub | Buy-Credits';
+
   return (
     <div className="container">
       <div className="inner">

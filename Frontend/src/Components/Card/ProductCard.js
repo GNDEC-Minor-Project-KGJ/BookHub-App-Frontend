@@ -33,6 +33,7 @@ export default function ProductCard({ productdetails }) {
     discountPercent = 20,
     image,
     bookId,
+    price,
     imgAlt = 'cover',
     badgeText = 'on Sale',
     outOfStock = false,
@@ -167,9 +168,9 @@ export default function ProductCard({ productdetails }) {
           </div>
           <h5 className="item-author">- By &nbsp;{author}</h5>
           <p>
-            <b>Rs. {discountedPrice} &nbsp;&nbsp;</b>
-            <del>Rs. {originalPrice}</del> &nbsp;&nbsp;
-            <span className="discount-on-card">({discountPercent}% off)</span>
+            <b>Rs. {2 * price - price} &nbsp;&nbsp;</b>
+            <del>Rs. {2 * price}</del> &nbsp;&nbsp;
+            <span className="discount-on-card">({50}% off)</span>
           </p>
           <div className="card-button">
             <button

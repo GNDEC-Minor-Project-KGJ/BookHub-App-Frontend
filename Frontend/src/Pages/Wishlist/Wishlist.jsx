@@ -12,8 +12,7 @@ function Wishlist() {
   // const { userWishlist, dispatchUserWishlist } = useWishlist();
   const { dispatchUserCart } = useCart();
 
-  const userWishlist = JSON.parse(localStorage.getItem('wishlistProducts'));
-  console.log(userWishlist);
+  let userWishlist;
 
   let heartObj = {
     loop: true,
@@ -24,35 +23,41 @@ function Wishlist() {
     },
   };
 
+  useEffect(() => {
+    document.title = 'BookHub | Wishlists';
+    userWishlist = JSON.parse(localStorage.getItem('wishlistProducts'));
+    console.log(userWishlist);
+  });
+
   // useEffect(() => {
-    // const token = localStorage.getItem('token');
-    // if (token) {
-    //   const user = jwt_decode(token);
-    //   if (!user) {
-    //     localStorage.removeItem('token');
-    //   } else {
-    //     (async function getUpdatedWishlistAndCart() {
-    //       let updatedUserInfo = await axios.get(
-    //         'http://localhost:5000/api/user',
-    //         {
-    //           headers: {
-    //             'x-access-token': localStorage.getItem('token'),
-    //           },
-    //         }
-    //       );
-    //       if (updatedUserInfo.data.status === 'ok') {
-    //         dispatchUserWishlist({
-    //           type: 'UPDATE_USER_WISHLIST',
-    //           payload: updatedUserInfo.data.user.wishlist,
-    //         });
-    //         dispatchUserCart({
-    //           type: 'UPDATE_USER_CART',
-    //           payload: updatedUserInfo.data.user.cart,
-    //         });
-    //       }
-    //     })();
-    //   }
-    // }
+  // const token = localStorage.getItem('token');
+  // if (token) {
+  //   const user = jwt_decode(token);
+  //   if (!user) {
+  //     localStorage.removeItem('token');
+  //   } else {
+  //     (async function getUpdatedWishlistAndCart() {
+  //       let updatedUserInfo = await axios.get(
+  //         'http://localhost:5000/api/user',
+  //         {
+  //           headers: {
+  //             'x-access-token': localStorage.getItem('token'),
+  //           },
+  //         }
+  //       );
+  //       if (updatedUserInfo.data.status === 'ok') {
+  //         dispatchUserWishlist({
+  //           type: 'UPDATE_USER_WISHLIST',
+  //           payload: updatedUserInfo.data.user.wishlist,
+  //         });
+  //         dispatchUserCart({
+  //           type: 'UPDATE_USER_CART',
+  //           payload: updatedUserInfo.data.user.cart,
+  //         });
+  //       }
+  //     })();
+  //   }
+  // }
   // }, []);
 
   if (userWishlist == null)

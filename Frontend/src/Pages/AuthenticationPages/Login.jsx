@@ -21,58 +21,25 @@ function Login() {
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem('token');
-
-  //   if (token) {
-  //     const user = jwt_decode(token);
-  //     if (!user) {
-  //       localStorage.removeItem('token');
-  //     } else {
-  //       (async function getUpdatedWishlistAndCart() {
-  //         let updatedUserInfo = await axios.get(
-  //           'http://localhost:5000/api/user',
-  //           {
-  //             headers: {
-  //               'x-access-token': localStorage.getItem('token'),
-  //             },
-  //           }
-  //         );
-
-  //         if (updatedUserInfo.status == 200) {
-  //           dispatchUserWishlist({
-  //             type: 'UPDATE_USER_WISHLIST',
-  //             payload: updatedUserInfo.data.user.wishlist,
-  //           });
-  //           dispatchUserCart({
-  //             type: 'UPDATE_USER_CART',
-  //             payload: updatedUserInfo.data.user.cart,
-  //           });
-  //           dispatchUserOrders({
-  //             type: 'UPDATE_USER_ORDERS',
-  //             payload: updatedUserInfo.data.user.orders,
-  //           });
-  //         }
-  //       })();
-  //     }
-  //   }
-  // }, []);
-
   useEffect(() => {
+    document.title = 'BookHub | Login Page';
     const getToken = () => {
       const token = localStorage.getItem('token');
       return token;
     };
 
-    (async function getUpdatedWishlistAndCart() {
-      let updatedUserInfo = await axios.get(
-        'http://localhost:5000/api/user/getUser',
-        {},
-        {
-          headers: { authorization: `Bearer ` + getToken() },
-        }
-      );
-    })();
+    try {
+      (async function getUpdatedWishlistAndCart() {
+        let updatedUserInfo = await axios.get(
+          'http://localhost:5000/api/user',
+          {
+            headers: { authorization: `Bearer ` + getToken() },
+          }
+        );
+      })();
+    } catch (error) {
+      console.error(error);
+    }
   }, []);
 
   const navigate = useNavigate();

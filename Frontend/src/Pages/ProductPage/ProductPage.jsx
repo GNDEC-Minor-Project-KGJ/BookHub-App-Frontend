@@ -5,6 +5,8 @@ import jwt_decode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { useToast, useWishlist, useCart } from '../../index';
+import Lottie from 'react-lottie';
+import LoadingLottie from '../../Assets/Lottie/loading-0.json';
 
 import { RecommendBooks } from '../../Components/RecommendBooks/RecommendBooks';
 
@@ -14,16 +16,13 @@ function ProductPage() {
   const { dispatchUserWishlist } = useWishlist();
   const { dispatchUserCart } = useCart();
   const { showToast } = useToast();
-  const { id } = useParams()
+  const { id } = useParams();
   const [loading, setLoading] = React.useState(true);
   const [purchased, setPurchased] = React.useState(true);
   const [productDetails, setProductDetails] = React.useState({});
 
   const token = localStorage.getItem('token');
-  const getToken = () => {
-    const token = localStorage.getItem('token');
-    return token;
-  };
+  const outOfStock = false;
   let userData = JSON.parse(localStorage.getItem('user')) || {};
 
   const getUserData = async () => {
@@ -44,29 +43,34 @@ function ProductPage() {
 
   useEffect(() => {
     setLoading(true);
-
-    (async function getDetails() {
-      console.log({ id });
-      console.log({ token });
-      await axios
-        .get(`http://localhost:5000/api/product/${id}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((res) => {
-          console.log(res.data.product);
-          setProductDetails(res.data.product);
-          setLoading(false);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    })();
+    try {
+      document.title = 'BookHub | Product Page';
+      (async function getDetails() {
+        console.log({ id });
+        console.log({ token });
+        await axios
+          .get(`http://localhost:5000/api/product/${id}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+          .then((res) => {
+            console.log(res.data.product);
+            setProductDetails(res.data.product);
+            setLoading(false);
+          })
+          .catch((err) => {
+            console.log(err);
+            setLoading(false);
+          });
+      })();
+    } catch (error) {
+      console.log(error);
+    }
 
     console.log(productDetails);
     const result = userData.purchases.includes(productDetails._id);
     if (result) setPurchased(true);
     else setPurchased(false);
-  }, [purchased]);
+  }, []);
 
   async function addItemToWishlist() {
     const token = localStorage.getItem('token');
@@ -115,35 +119,56 @@ function ProductPage() {
   }
 
   async function purchaseBook() {
-    if (userData.credits < 100) {
-      showToast('error', 'Not Enough Credits');
-      return;
+    try {
+      if (userData.credits < productDetails.price) {
+        showToast('error', 'Not Enough Credits');
+        return;
+      }
+      const id = productDetails.bookId;
+      console.log({ id });
+      console.log({ token });
+      await axios
+        .post(`http://localhost:5000/api/product/purchase/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          console.log(res);
+          setProductDetails(res.data.product);
+          setLoading(false);
+          showToast('success', 'Book Purchased Succesfully');
+        })
+        .finally(() => {
+          getUserData();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (error) {
+      console.log(error);
     }
-    const id = productDetails.bookId;
-    console.log({ id });
-    console.log({ token });
-    await axios
-      .post(`http://localhost:5000/api/product/purchase/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => {
-        console.log(res);
-        setProductDetails(res.data.product);
-        setLoading(false);
-        showToast('success', 'Book Purchased Succesfully');
-      })
-      .finally(() => {
-        getUserData();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   }
 
-  const outOfStock = false;
+  const loadingObj = {
+    loop: true,
+    autoplay: true,
+    animationData: LoadingLottie,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+    },
+  };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="new-arrivals-container">
+        <Lottie
+          options={loadingObj}
+          height={380}
+          style={{ margin: 'auto' }}
+          isStopped={false}
+          isPaused={false}
+        />
+      </div>
+    );
   }
 
   return (

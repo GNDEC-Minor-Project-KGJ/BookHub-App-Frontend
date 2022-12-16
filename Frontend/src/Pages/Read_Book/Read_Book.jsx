@@ -1,6 +1,7 @@
 import React from 'react';
 
 function Read_Book() {
+  document.title = 'BookHub | Read-Book';
   return (
     <>
       <h2>Read Book</h2>

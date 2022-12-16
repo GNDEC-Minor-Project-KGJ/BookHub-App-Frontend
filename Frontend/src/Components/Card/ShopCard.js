@@ -32,6 +32,7 @@ export default function ShopCard({ productdetails }) {
     discountedPrice = 80,
     discountPercent = 20,
     url,
+    price,
     imgAlt = 'cover',
     badgeText = 'on Sale',
     outOfStock = false,
@@ -42,6 +43,7 @@ export default function ShopCard({ productdetails }) {
   const imgSrc = url;
   const bookName = title;
   const bookId = id;
+
 
   const [wishlistHeartIcon, setWishlistHeartIcon] = useState('fa-heart-o');
   const [wishlistBtn, setWishlistBtn] = useState('add-to-wishlist-btn');
@@ -170,9 +172,9 @@ export default function ShopCard({ productdetails }) {
           </div>
           <h5 className="item-author">- By &nbsp;{author}</h5>
           <p>
-            <b>Rs. {discountedPrice} &nbsp;&nbsp;</b>
-            <del>Rs. {originalPrice}</del> &nbsp;&nbsp;
-            <span className="discount-on-card">({discountPercent}% off)</span>
+            <b>Rs. {2 * (price || 100) - (price || 100)} &nbsp;&nbsp;</b>
+            <del>Rs. {2 * (price || 100)}</del> &nbsp;&nbsp;
+            <span className="discount-on-card">({50}% off)</span>
           </p>
           <div className="card-button">
             <button

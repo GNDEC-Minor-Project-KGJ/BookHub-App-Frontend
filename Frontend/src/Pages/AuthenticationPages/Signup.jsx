@@ -7,7 +7,8 @@ import { useToast } from '../../Context/toast-context';
 function Signup() {
   const { showToast } = useToast();
 
-  const [termsAndConditionsCheckbox, setTermsAndConditionsCheckbox] = useState(false);
+  const [termsAndConditionsCheckbox, setTermsAndConditionsCheckbox] =
+    useState(false);
 
   const [newUserName, setNewUserName] = useState('');
   const [newUserEmail, setNewUserEmail] = useState('');
@@ -15,27 +16,33 @@ function Signup() {
 
   const navigate = useNavigate();
 
+  document.title = 'BookHub | Signup Page';
+
   const signupUser = (event) => {
     event.preventDefault();
-    axios
-      .post('http://localhost:5000/api/user/signup', {
-        name: `${newUserName}`,
-        email: `${newUserEmail}`,
-        password: `${newUserPassword}`,
-      })
-      .then((res) => {
-        if (res.status == 200 || res.status == 201) {
-          //User created successfully, navigate to Login Page
-          showToast('success', '', 'New user created successfully');
-          navigate('/login');
-        } else {
-          throw new Error('Error occured while creating new user');
-        }
-      })
-      .catch((err) => {
-        showToast('error', '', 'Error creating new user. Please try again');
-      });
-  }
+    try {
+      axios
+        .post('http://localhost:5000/api/user/signup', {
+          name: `${newUserName}`,
+          email: `${newUserEmail}`,
+          password: `${newUserPassword}`,
+        })
+        .then((res) => {
+          if (res.status == 200 || res.status == 201) {
+            //User created successfully, navigate to Login Page
+            showToast('success', '', 'New user created successfully');
+            navigate('/login');
+          } else {
+            throw new Error('Error occured while creating new user');
+          }
+        })
+        .catch((err) => {
+          showToast('error', '', 'Error creating new user. Please try again');
+        });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="user-auth-content-container">

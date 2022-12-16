@@ -6,7 +6,7 @@ import MDEditor from './MDEditor/MDEditor';
 function BookEditor() {
   const editorRef = React.useRef();
   const [value, setValue] = React.useState('Write Your Story!');
-
+  document.title = 'BookHub | Book-Editor';
   return (
     <>
       <h2>Editor</h2>
