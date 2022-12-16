@@ -140,13 +140,16 @@ function Navbar() {
             </div>
           </button>
         </Link> */}
-        <Link to="/editor">
-          <button className="icon-btn">
-            <div className="icon-count-badge">
-              <i className="fa fa-star fa-x" aria-hidden="true"></i>
-            </div>
-          </button>
-        </Link>
+        {userData.role == 1 && (
+          <Link to="/editor">
+            <button className="icon-btn">
+              <div className="icon-count-badge">
+                <i className="fa fa-star fa-x" aria-hidden="true"></i>
+              </div>
+            </button>
+          </Link>
+        )}
+
         <Link to="/wishlist">
           <button className="icon-btn">
             <div className="icon-count-badge">
@@ -202,7 +205,13 @@ function Navbar() {
         >
           {userData.credit} ©
           <Link
-            style={{ fontSize: '32px', marginLeft: '10px', color: 'red', border: '1px solid black', borderRadius: '40%' }}
+            style={{
+              fontSize: '32px',
+              marginLeft: '10px',
+              color: 'red',
+              border: '1px solid black',
+              borderRadius: '40%',
+            }}
             to="buy-credits"
           >
             +
